@@ -2,6 +2,8 @@
 
 error_reporting(E_ALL ^(E_NOTICE | E_WARNING));
 
+include("inc/config.php");
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +16,7 @@ error_reporting(E_ALL ^(E_NOTICE | E_WARNING));
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Blank</title>
+  <title>Point of Sale</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -36,7 +38,7 @@ error_reporting(E_ALL ^(E_NOTICE | E_WARNING));
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
         <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-laugh-wink"></i>
+          <i class="fas fa-shopping-cart"></i>
         </div>
         <div class="sidebar-brand-text mx-3">Point of Sale <sup>2</sup></div>
       </a>
@@ -56,7 +58,7 @@ error_reporting(E_ALL ^(E_NOTICE | E_WARNING));
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        Interface
+        Master
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
@@ -109,6 +111,30 @@ error_reporting(E_ALL ^(E_NOTICE | E_WARNING));
             <h6 class="collapse-header">Laporan</h6>
             <a class="collapse-item" href="?page=lap_pembelian">Pembelian</a>
             <a class="collapse-item" href="?page=lap_penjualan">Penjualan</a>
+            
+          </div>
+        </div>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        Piutang
+      </div>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#piutang" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-folder-open"></i>
+          <span>Data Piutang</span>
+        </a>
+        <div id="piutang" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Laporan</h6>
+            <a class="collapse-item" href="?page=piutang">Piutang</a>
+            <a class="collapse-item" href="?page=hutang">Hutang</a>
             
           </div>
         </div>
@@ -266,10 +292,20 @@ error_reporting(E_ALL ^(E_NOTICE | E_WARNING));
             if ($aksi == "") {
                 include('page/brand/brand.php');
                 }
-          }
-          else {
-            include('dashboard.php');
-          }
+            elseif ($aksi == "add") {
+              include('page/brand/add.php');
+              }
+            elseif ($aksi == "edit") {
+              include('page/brand/edit.php');
+              }
+            elseif ($aksi == "delete") {
+              include('page/brand/delete.php');
+              }
+          }  elseif ($page == "") {
+    include "dashboard.php";
+} else {
+    echo "Halaman tidak ditemukan";
+}
           
           ?>
 
