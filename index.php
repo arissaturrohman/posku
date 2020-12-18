@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-error_reporting(E_ALL ^(E_NOTICE | E_WARNING));
+error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 
 include("inc/config.php");
 
@@ -38,7 +38,7 @@ include("inc/config.php");
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
         <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-shopping-cart"></i>
+          <i class="fas fa-shopping-cart-alt"></i>
         </div>
         <div class="sidebar-brand-text mx-3">Point of Sale <sup>2</sup></div>
       </a>
@@ -72,7 +72,7 @@ include("inc/config.php");
             <h6 class="collapse-header">Custom Components:</h6>
             <a class="collapse-item" href="?page=barang">Data Barang</a>
             <a class="collapse-item" href="?page=pelanggan">Data Pelanggan</a>
-            <a class="collapse-item" href="?page=supplier">Data Supplier</a>
+            <a class="collapse-item" href="?page=level">Data Level</a>
           </div>
         </div>
       </li>
@@ -86,7 +86,7 @@ include("inc/config.php");
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Custom Utilities:</h6>
-            <a class="collapse-item" href="?page=pembelian">Pembelian</a>
+            <a class="collapse-item" href="?page=beli">Pembelian</a>
             <a class="collapse-item" href="?page=penjualan">Penjualan</a>
           </div>
         </div>
@@ -111,7 +111,7 @@ include("inc/config.php");
             <h6 class="collapse-header">Laporan</h6>
             <a class="collapse-item" href="?page=lap_pembelian">Pembelian</a>
             <a class="collapse-item" href="?page=lap_penjualan">Penjualan</a>
-            
+
           </div>
         </div>
       </li>
@@ -135,7 +135,7 @@ include("inc/config.php");
             <h6 class="collapse-header">Laporan</h6>
             <a class="collapse-item" href="?page=piutang">Piutang</a>
             <a class="collapse-item" href="?page=hutang">Hutang</a>
-            
+
           </div>
         </div>
       </li>
@@ -148,8 +148,8 @@ include("inc/config.php");
         Settings
       </div>
 
-     <!-- Nav Item - Utilities Collapse Menu -->
-     <li class="nav-item">
+      <!-- Nav Item - Utilities Collapse Menu -->
+      <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSetting" aria-expanded="true" aria-controls="collapseSetting">
           <i class="fas fa-fw fa-wrench"></i>
           <span>Pengaturan</span>
@@ -190,7 +190,7 @@ include("inc/config.php");
             <i class="fa fa-bars"></i>
           </button>
 
-          
+
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
@@ -233,80 +233,77 @@ include("inc/config.php");
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-         
 
-          <?php 
-          
+
+          <?php
+
           $page = $_GET['page'];
           $aksi = $_GET['aksi'];
 
           if ($page == "barang") {
-              if ($aksi == "") {
-                  include('page/barang/barang.php');
-              }
-          }
-
-          if ($page == "pelanggan") {
             if ($aksi == "") {
-                include('page/pelanggan/pelanggan.php');
-                }
-          }
-
-          if ($page == "supplier") {
+              include('page/barang/barang.php');
+            } elseif ($aksi == "add") {
+              include('page/barang/add.php');
+            } elseif ($aksi == "edit") {
+              include('page/barang/edit.php');
+            } elseif ($aksi == "delete") {
+              include('page/barang/delete.php');
+            }
+          } elseif ($page == "pelanggan") {
             if ($aksi == "") {
-                include('page/supplier/supplier.php');
-                }
-          }
-
-          if ($page == "pembelian") {
+              include('page/pelanggan/pelanggan.php');
+            } elseif ($aksi == "add") {
+              include('page/pelanggan/add.php');
+            }
+          } elseif ($page == "level") {
             if ($aksi == "") {
-                include('page/pembelian/pembelian.php');
-                }
-          }
-
-          if ($page == "penjualan") {
+              include('page/level/level.php');
+            } elseif ($aksi == "add") {
+              include('page/level/add.php');
+            }
+          } elseif ($page == "beli") {
             if ($aksi == "") {
-                include('page/penjualan/penjualan.php');
-                }
-          }
-
-          if ($page == "laporan") {
+              include('page/pembelian/pembelian.php');
+            } elseif ($aksi == "add") {
+              include('page/pembelian/add.php');
+            } elseif ($aksi == "edit") {
+              include('page/pembelian/edit.php');
+            } elseif ($aksi == "delete") {
+              include('page/pembelian/delete.php');
+            }
+          } elseif ($page == "penjualan") {
             if ($aksi == "") {
-                include('page/laporan/lap_pembelian.php');
-                }
-          }
-
-          if ($page == "laporan") {
+              include('page/penjualan/penjualan.php');
+            }
+          } elseif ($page == "laporan") {
             if ($aksi == "") {
-                include('page/laporan/lap_penjualan.php');
-                }
-          }
-
-          if ($page == "pengguna") {
+              include('page/laporan/lap_pembelian.php');
+            }
+          } elseif ($page == "laporan") {
             if ($aksi == "") {
-                include('page/pengguna/pengguna.php');
-                }
-          }
-
-          if ($page == "brand") {
+              include('page/laporan/lap_penjualan.php');
+            }
+          } elseif ($page == "pengguna") {
             if ($aksi == "") {
-                include('page/brand/brand.php');
-                }
-            elseif ($aksi == "add") {
+              include('page/pengguna/pengguna.php');
+            }
+          } elseif ($page == "brand") {
+            if ($aksi == "") {
+              include('page/brand/brand.php');
+            } elseif ($aksi == "add") {
               include('page/brand/add.php');
-              }
-            elseif ($aksi == "edit") {
+            } elseif ($aksi == "edit") {
               include('page/brand/edit.php');
-              }
-            elseif ($aksi == "delete") {
+            } elseif ($aksi == "delete") {
               include('page/brand/delete.php');
-              }
-          }  elseif ($page == "") {
-    include "dashboard.php";
-} else {
-    echo "Halaman tidak ditemukan";
-}
-          
+            }
+          } elseif ($page == "") {
+            include "dashboard.php";
+          } else {
+            echo "Halaman tidak ditemukan";
+          }
+
           ?>
 
         </div>
@@ -355,6 +352,57 @@ include("inc/config.php");
     </div>
   </div>
 
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Data Barang</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-responsive" id="dataTable">
+            <thead>
+              <tr>
+                <th>Barcode</th>
+                <th>Nama Barang</th>
+                <th>Ukuran</th>
+                <th>Satuan</th>
+                <th>Stok</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+
+              $sql = $conn->query("SELECT * FROM tb_barang");
+              while ($data = $sql->fetch_assoc()) {
+
+              ?>
+                <tr>
+                  <td><?= $data['barcode']; ?></td>
+                  <td><?= $data['nama_barang']; ?></td>
+                  <td><?= $data['ukuran']; ?></td>
+                  <td><?= $data['satuan']; ?></td>
+                  <td><?= $data['stok']; ?></td>
+                  <td>
+                    <button class="btn btn-sm btn-info" id="select" data-id="<?= $data['id_barang']; ?>" data-barcode="<?= $data['barcode']; ?>" data-barang="<?= $data['nama_barang']; ?>" data-ukuran="<?= $data['ukuran']; ?>" data-satuan="<?= $data['satuan']; ?>" data-qty="<?= $data['stok']; ?>">
+                      <i class=" fas fa-check"></i>
+                    </button>
+                  </td>
+                </tr>
+              <?php } ?>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -364,6 +412,40 @@ include("inc/config.php");
 
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
+
+  <!-- Page level plugins -->
+  <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="js/demo/datatables-demo.js"></script>
+
+  <script>
+    $('#dataTable').DataTable({
+      ordering: false,
+      info: false
+    });
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      $(document).on('click', '#select', function() {
+        var id_barang = $(this).data('id');
+        var barcode = $(this).data('barcode');
+        var nama_barang = $(this).data('barang');
+        var ukuran = $(this).data('ukuran');
+        var satuan = $(this).data('satuan');
+        var qty = $(this).data('qty');
+        $('#id_barang').val(id_barang);
+        $('#barcode').val(barcode);
+        $('#nama_barang').val(nama_barang);
+        $('#ukuran').val(ukuran);
+        $('#satuan').val(satuan);
+        $('#qty').val(qty);
+        $('#exampleModal').modal('hide');
+      })
+    })
+  </script>
 
 </body>
 
