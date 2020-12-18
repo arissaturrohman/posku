@@ -3,14 +3,15 @@
 $id_beli =  $_GET['id'];
 // $id_barang =  $_GET['id'];
 
-$query = $conn->query("SELECT * FROM tb_pembelian");
-$data = $query->fetch_assoc();
-$stok = $data['stok'];
-$id_barang = $data['id_barang'];
 
 $sql = $conn->query("DELETE FROM tb_pembelian WHERE id_beli = '$id_beli'");
 
-$update = $conn->query("UPDATE tb_barang SET stok = stok -'$stok' WHERE id_barang = '$id_barang'");
+// $query = $conn->query("SELECT * FROM tb_pembelian");
+// $data = $query->fetch_assoc();
+// $stok = $data['stok'];
+// $id_barang = $data['id_barang'];
+
+// $update = $conn->query("UPDATE tb_barang SET stok = stok -'$stok' WHERE id_barang = '$id_barang'");
 
 ?>
 <script>

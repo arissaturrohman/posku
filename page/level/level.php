@@ -43,7 +43,7 @@
             <?php } ?>
         </tbody>
     </table>
-    <a href="?page=level&aksi=add" class="btn btn-xs btn-primary"><i class="fas fa-plus-circle"></i> Add Data</a>
+    <a href="?page=level&aksi=add" class="btn btn-sm btn-primary"><i class="fas fa-plus-circle"></i> Add Data</a>
 
 
 </section>

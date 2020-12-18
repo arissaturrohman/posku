@@ -353,7 +353,7 @@ include("inc/config.php");
   </div>
 
 
-  <!-- Modal -->
+  <!-- Modal beli -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -387,9 +387,21 @@ include("inc/config.php");
                   <td><?= $data['nama_barang']; ?></td>
                   <td><?= $data['ukuran']; ?></td>
                   <td><?= $data['satuan']; ?></td>
-                  <td><?= $data['stok']; ?></td>
                   <td>
-                    <button class="btn btn-sm btn-info" id="select" data-id="<?= $data['id_barang']; ?>" data-barcode="<?= $data['barcode']; ?>" data-barang="<?= $data['nama_barang']; ?>" data-ukuran="<?= $data['ukuran']; ?>" data-satuan="<?= $data['satuan']; ?>" data-qty="<?= $data['stok']; ?>">
+                    <?php
+                    $id_barang = $data['id_barang'];
+                    $beli = $conn->query("SELECT * FROM tb_pembelian WHERE id_barang = '$id_barang'");
+                    $data_beli = $beli->fetch_assoc();
+                    if ($data_beli['stok'] == 0) {
+                      echo 0;
+                    } else {
+                      echo $data_beli['stok'];
+                    }
+                    ?>
+
+                  </td>
+                  <td>
+                    <button class="btn btn-sm btn-info" id="select" data-id="<?= $data['id_barang']; ?>" data-barcode="<?= $data['barcode']; ?>" data-barang="<?= $data['nama_barang']; ?>" data-ukuran="<?= $data['ukuran']; ?>" data-satuan="<?= $data['satuan']; ?>" data-qty="<?= $data_beli['stok']; ?>">
                       <i class=" fas fa-check"></i>
                     </button>
                   </td>
@@ -399,6 +411,50 @@ include("inc/config.php");
           </table>
         </div>
 
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal jual -->
+  <div class="modal fade" id="jual" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal pelanggan -->
+  <div class="modal fade" id="pelanggan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
       </div>
     </div>
   </div>

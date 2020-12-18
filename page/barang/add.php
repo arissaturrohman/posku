@@ -61,9 +61,9 @@ if (isset($_POST['submit'])) {
   $jual = mysqli_real_escape_string($conn, $_POST['jual']);
   $created = date('Y-m-d');
   $updated = 0;
-  $stok = 0;
+  // $stok = 0;
 
-  $sql = $conn->query("INSERT INTO tb_barang (barcode, nama_barang, ukuran, satuan, stok, harga_beli, harga_jual, created, updated) VALUES('$barcode', '$nama', '$ukuran', '$satuan', '$stok', '$beli', '$jual', '$created', '$updated')");
+  $sql = $conn->query("INSERT INTO tb_barang (barcode, nama_barang, ukuran, satuan, harga_beli, harga_jual, created, updated) VALUES('$barcode', '$nama', '$ukuran', '$satuan', '$beli', '$jual', '$created', '$updated')");
 
   if ($sql) {
 ?>
