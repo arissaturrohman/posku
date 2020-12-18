@@ -316,7 +316,7 @@ include("inc/config.php");
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
+            <span>Copyright &copy; Point of Sale 2020 - <?= $th = date('Y'); ?> | created by <a href="https://github.com/arissaturrohman/">Arissatur Rohman</a></span>
           </div>
         </div>
       </footer>
