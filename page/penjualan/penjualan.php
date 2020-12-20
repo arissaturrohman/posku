@@ -34,11 +34,11 @@ $kode = $_GET['invoice'];
         <input type="hidden" name="invoice" value="<?= $kode; ?>">
       <div class="form-group row">
         <div class="col-7">
-          <input type="text" class="form-control form-control-sm" name="barcode" placeholder="barcode" autofocus required>            
-          <input type="text" class="form-control form-control-sm mt-2" name="jumlah" placeholder="jumlah" required>            
+          <input type="text" class="form-control form-control-sm" name="barcode"  id="barcode" placeholder="barcode" autofocus data-toggle="modal" data-target="#barcodeModal" autocomplete="off" required readonly>            
+          <input type="text" class="form-control form-control-sm mt-2" name="jumlah" placeholder="jumlah" autocomplete="off" required>            
         </div>
-        <div class="col-3">            
-          <input type="submit" name="submit" class="btn btn-sm btn-info">
+        <div class="col-3">          
+          <input type="submit" name="submit" class="btn btn-sm btn-info mt-2">
         </div>
       </div>
     </form>
@@ -94,17 +94,6 @@ if (isset($_POST['submit'])) {
 
 ?>
 
-<?php 
-
-// if (isset($_POST['pelanggan'])) {
-//   $id_invoice = $_GET['invoice'];
-//   $id_pelanggan = $_POST['id_pelanggan'];
-
-//   $pelanggan = $conn->query("UPDATE tb_penjualan SET id_pelanggan = '$id_pelanggan' WHERE no_invoice = '$id_invoice'");
-// }
-
-?>
-
 <div class="mt-5">
   <!-- Tabel Transaksi -->
   <table class="table">
@@ -139,12 +128,28 @@ if (isset($_POST['submit'])) {
         <td><?= $data['jumlah']; ?></td>
         <td><?= number_format($total); ?></td>
         <td class="text-center">
-          <a onclick="return confirm('Yakin hapus')" href="?page=penjualan&aksi=hapus&invoice=<?= $invoice;?>&id=<?= $data['id_penjualan']; ?>&jumlah=<?= $data['jumlah']; ?>&harga=<?= $data['harga_jual']; ?>&barcode=<?= $data['barcode']; ?>" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+          <!-- <a onclick="return confirm('Yakin hapus')" href="?page=penjualan&aksi=hapus&invoice=<?= $invoice;?>&id=<?= $data['id_penjualan']; ?>&jumlah=<?= $data['jumlah']; ?>&harga=<?= $data['harga_jual']; ?>&barcode=<?= $data['barcode']; ?>" class="btn btn-sm btn-danger" name="hapusBarang"><i class="fas fa-trash"></i></a> -->
+          <form action="" method="post">
+            <input type="hidden" name="id_penjualan" value="<?= $data['id_penjualan']; ?>">
+            <input type="submit" name="hapusBarang" class="btn btn-sm btn-danger" value="hapus">
+          </form>
         </td>
       </tr>
-      
-        <?php 
-        
+          <?php 
+          
+          if (isset($_POST['hapusBarang'])) {
+            $id_jual = $_POST['id_penjualan'];
+
+            $hapusBarang = $conn->query("DELETE FROM tb_penjualan WHERE id_penjualan = '$id_jual'");
+          }
+          if ($hapusBarang) {
+            ?>
+            <script>
+              windown.location.href = "?page=penjualan&invoice=<?= $invoice?>";
+            </script>
+            <?php 
+          }
+                  
         $total_bayar = $total_bayar + $total;
       }
         ?>
@@ -215,10 +220,11 @@ if (isset($_POST['simpan'])) {
   $no_invoice = $_POST['invoice'];
   $total = $_POST['total'];
   $bayar = $_POST['bayar'];
-  $diskon = $_POST['diskon'];
+  $diskon_p = $_POST['diskon'];
   $s_total = $_POST['s_total'];
   $kembali = $_POST['kembali'];
   $ket = $_POST['ket'];
+  $diskon = ($bayar * $diskon_p) / 100;
 
   $jual_detail = $conn->query("INSERT INTO tb_penjualan_detail (no_invoice, total, bayar, diskon, s_total, kembali, ket) VALUES ('$no_invoice', '$total', '$bayar', '$diskon', '$s_total', '$kembali', '$ket')");
 
@@ -237,33 +243,3 @@ if ($jual_detail) {
 ?>
 
 
-<!-- <script>
-  function hitung(){
-    var total = document.getElementById('total').value;
-    var diskon = document.getElementById('diskon').value;
-    var pot_harga = parseInt(total) * parseInt(diskon) / parseInt(100);
-    if (!isNaN(pot_harga)) {
-      var potongan = document.getElementById('potongan').value = pot_harga;
-    }
-    var sub_total = parseInt(total) - parseInt(potongan);
-    if (!isNaN(sub_total)) {
-      var s_total = document.getElementById('s_total').value = sub_total;
-    }
-    
-  }
-</script> -->
-
-<!-- <script>
-  $(document).ready(function(){
-    $("#total, #diskon").keyup(function(){
-      var total = $("#total").val();
-      var diskon = $("#diskon").val();
-      // var s_total = $("#s_total").val();
-      // var potongan = $("#potongan").val();
-      // var bayar = $("#bayar").val();
-
-      var s_total = parseInt(total) * parseInt(diskon) / parseInt(100);
-      $("#s_total").val(s_total);
-    })
-  })
-</script> -->

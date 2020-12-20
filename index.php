@@ -289,10 +289,6 @@ include("inc/config.php");
           } elseif ($page == "penjualan") {
             if ($aksi == "") {
               include('page/penjualan/penjualan.php');
-            }elseif ($aksi == "tambah") {
-              include('page/penjualan/tambah.php');
-            }elseif ($aksi == "kurang") {
-              include('page/penjualan/kurang.php');
             }elseif ($aksi == "hapus") {
               include('page/penjualan/hapus.php');
             }
@@ -436,6 +432,68 @@ include("inc/config.php");
   </div>
 
 
+  <!-- Modal barcode -->
+  <div class="modal fade" id="barcodeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Data Barang</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="table" id="tableBarcode">
+            <thead>
+              <tr>
+                <th>Barcode</th>
+                <th>Nama Barang</th>
+                <th>Ukuran</th>
+                <th>Stok</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+
+              $sql = $conn->query("SELECT * FROM tb_barang");
+              while ($data = $sql->fetch_assoc()) {
+
+              ?>
+                <tr>
+                  <td style="font-size:8pt;"><?= $data['barcode']; ?></td>
+                  <td style="font-size:8pt;"><?= $data['nama_barang']; ?></td>
+                  <td style="font-size:8pt;"><?= $data['ukuran']. " " . $data['satuan']; ?></td>
+                  <!-- <td><?= $data['satuan']; ?></td> -->
+                  <td style="font-size:8pt;">
+                    <?php
+                    $id_barang = $data['id_barang'];
+                    $beli = $conn->query("SELECT * FROM tb_pembelian WHERE id_barang = '$id_barang'");
+                    $data_beli = $beli->fetch_assoc();
+                    if ($data_beli['stok'] == 0) {
+                      echo 0;
+                    } else {
+                      echo $data_beli['stok'];
+                    }
+                    ?>
+
+                  </td>
+                  <td  style="font-size:8pt;">
+                    <button class="btn btn-sm btn-info" id="barcodeSelect" data-id="<?= $data['id_barang']; ?>" data-barcode="<?= $data['barcode']; ?>" data-barang="<?= $data['nama_barang']; ?>" data-ukuran="<?= $data['ukuran']; ?>" data-satuan="<?= $data['satuan']; ?>" data-qty="<?= $data_beli['stok']; ?>">
+                      <i class=" fas fa-check"></i>
+                    </button>
+                  </td>
+                </tr>
+              <?php } ?>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
   <!-- Modal pelanggan -->
   <div class="modal fade" id="pelangganModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -447,7 +505,7 @@ include("inc/config.php");
           </button>
         </div>
         <div class="modal-body">
-          <table class="table" id="example">
+          <table class="table table-responsive" id="tablePelanggan">
             <thead>
               <tr>
                 <th>Nama</th>
@@ -511,15 +569,30 @@ include("inc/config.php");
   <script src="vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-  <!-- Page level custom scripts -->
-  <script src="js/demo/datatables-demo.js"></script>
 
   <script>
     $('#dataTable').DataTable({
       ordering: false,
-      info: false
+      info: false,
     });
   </script>
+
+  <script>
+    $('#tablePelanggan').DataTable({
+      ordering: false,
+      info: false,
+    });
+  </script>
+
+  <script>
+    $('#tableBarcode').DataTable({
+      ordering: false,
+      info: false,
+    });
+  </script>
+
+  <!-- Page level custom scripts -->
+  <script src="js/demo/datatables-demo.js"></script>
 
   <script>
     $(document).ready(function() {
@@ -537,6 +610,26 @@ include("inc/config.php");
         $('#satuan').val(satuan);
         $('#qty').val(qty);
         $('#exampleModal').modal('hide');
+      })
+    })
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      $(document).on('click', '#barcodeSelect', function() {
+        var id_barang = $(this).data('id');
+        var barcode = $(this).data('barcode');
+        var nama_barang = $(this).data('barang');
+        var ukuran = $(this).data('ukuran');
+        var satuan = $(this).data('satuan');
+        var qty = $(this).data('qty');
+        // $('#id_barang').val(id_barang);
+        $('#barcode').val(barcode);
+        // $('#nama_barang').val(nama_barang);
+        // $('#ukuran').val(ukuran);
+        // $('#satuan').val(satuan);
+        // $('#qty').val(qty);
+        $('#barcodeModal').modal('hide');
       })
     })
   </script>
