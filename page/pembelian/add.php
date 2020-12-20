@@ -11,7 +11,7 @@
             <div class="col-sm-7">
               <input type="text" class="form-control" name="barcode" id="barcode" placeholder="Barcode" required autofocus>
             </div>
-            <div class="col-sm-1">
+            <div>
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                 <i class="fas fa-search"></i>
               </button>

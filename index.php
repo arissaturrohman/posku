@@ -25,6 +25,8 @@ include("inc/config.php");
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
+  
+
 </head>
 
 <body id="page-top">
@@ -38,7 +40,7 @@ include("inc/config.php");
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
         <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-shopping-cart-alt"></i>
+          <i class="fas fa-shopping-cart"></i>
         </div>
         <div class="sidebar-brand-text mx-3">Point of Sale <sup>2</sup></div>
       </a>
@@ -87,7 +89,19 @@ include("inc/config.php");
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Custom Utilities:</h6>
             <a class="collapse-item" href="?page=beli">Pembelian</a>
-            <a class="collapse-item" href="?page=penjualan">Penjualan</a>
+
+            <?php 
+  
+            $query = $conn->query("SELECT MAX(no_invoice) AS invoice FROM tb_penjualan");
+            $data = $query->fetch_assoc();
+            $kodeBarang = $data['invoice'];
+            $urutan = (int) substr($kodeBarang, 9, 4) + 1;
+            $kodeBarang = sprintf("%', 04d",$urutan);
+            $invoice = "LV" . date('ymd') . '000'.$urutan;
+            // echo $invoice;
+
+            ?>
+            <a class="collapse-item" href="?page=penjualan&invoice=<?= $invoice; ?>">Penjualan</a>
           </div>
         </div>
       </li>
@@ -275,6 +289,12 @@ include("inc/config.php");
           } elseif ($page == "penjualan") {
             if ($aksi == "") {
               include('page/penjualan/penjualan.php');
+            }elseif ($aksi == "tambah") {
+              include('page/penjualan/tambah.php');
+            }elseif ($aksi == "kurang") {
+              include('page/penjualan/kurang.php');
+            }elseif ($aksi == "hapus") {
+              include('page/penjualan/hapus.php');
             }
           } elseif ($page == "laporan") {
             if ($aksi == "") {
@@ -416,48 +436,66 @@ include("inc/config.php");
   </div>
 
 
-  <!-- Modal jual -->
-  <div class="modal fade" id="jual" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
   <!-- Modal pelanggan -->
-  <div class="modal fade" id="pelanggan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="pelangganModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Data Pelanggan</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          ...
+          <table class="table" id="example">
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Alamat</th>
+                <th>Telp</th>
+                <th>Level</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+
+              $sql = $conn->query("SELECT * FROM tb_pelanggan");
+              while ($data = $sql->fetch_assoc()) {
+
+              ?>
+                <tr>
+                  <td><?= $data['nama_pelanggan']; ?></td>
+                  <td><?= $data['alamat']; ?></td>
+                  <td><?= $data['telp']; ?></td>
+                  <td>
+                    <?php
+                    $id_level = $data['id_level'];
+                    $level = $conn->query("SELECT * FROM tb_level WHERE id_level = '$id_level'");
+                    $data_level = $level->fetch_assoc();
+                    echo $data_level['p_level'];
+                    ?>
+
+                  </td>
+                  <td>
+                    <button class="btn btn-sm btn-info" id="jual" data-id="<?= $data['id_pelanggan']; ?>" data-pelanggan="<?= $data['nama_pelanggan']; ?>" data-alamat="<?= $data['alamat']; ?>" data-telp="<?= $data['telp']; ?>" data-level="<?= $data_level['p_level']; ?>" data-diskon="<?= $data_level['diskon']; ?>">
+                      <i class=" fas fa-check"></i>
+                    </button>
+                  </td>
+                </tr>
+              <?php } ?>
+            </tbody>
+          </table>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+
       </div>
     </div>
   </div>
+
+
+
+
+
 
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
@@ -502,6 +540,57 @@ include("inc/config.php");
       })
     })
   </script>
+
+  
+<script>
+    $(document).ready(function() {
+      $(document).on('click', '#jual', function() {
+        var id_pelanggan = $(this).data('id');
+        var pelanggan = $(this).data('pelanggan');
+        var alamat = $(this).data('alamat');
+        var telp = $(this).data('telp');
+        var level = $(this).data('level');
+        var diskon = $(this).data('diskon');
+        $('#id_pelanggan').val(id_pelanggan);
+        $('#nama').val(pelanggan);
+        $('#alamat').val(alamat);
+        $('#telp').val(telp);
+        $('#level').val(level);
+        $('#diskon').val(diskon);
+        $('#pelangganModal').modal('hide');
+      })
+    })
+  </script>
+
+  <script>
+  $(document).ready(function(){
+    $("#total, #diskon").click(function(){
+      var total = $("#total").val();
+      var diskon = $("#diskon").val();
+      var potongan = parseInt(total) * parseInt(diskon) / parseInt(100);
+      var sub_total = parseInt(total) - parseInt(potongan);
+
+      $("#potongan").val(potongan);
+      $("#s_total").val(sub_total);
+
+    })
+  })
+</script>
+
+<script>
+  $(document).ready(function(){
+    $("#bayar, #total, #diskon").keyup(function(){
+        var bayar = $("#bayar").val();
+        var total = $("#total").val();
+        var diskon = $("#diskon").val();
+        var potongan = parseInt(total) * parseInt(diskon) / parseInt(100);
+        var sub_total = parseInt(total) - parseInt(potongan);
+        var kembali = parseInt(bayar) - parseInt(sub_total);
+
+        $("#kembali").val(kembali);             
+    })
+  })
+</script>
 
 </body>
 

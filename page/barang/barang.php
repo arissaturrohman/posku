@@ -40,18 +40,7 @@
           <td><?= $data['barcode']; ?></td>
           <td><?= $data['nama_barang']; ?></td>
           <td><?= $data['ukuran'] . ' ' . $data['satuan']; ?></td>
-          <td>
-            <?php
-            $id_barang = $data['id_barang'];
-            $stok = $conn->query("SELECT SUM(stok) AS jumlah FROM tb_pembelian  WHERE id_barang='$id_barang'");
-            $data_stok = $stok->fetch_assoc();
-            if ($data_stok['jumlah'] == 0) {
-              echo 0;
-            } else {
-              echo $data_stok['jumlah'];
-            }
-            ?>
-          </td>
+          <td><?= $data['stok']; ?></td>
           <td><?= number_format($data['harga_beli']); ?></td>
           <td><?= number_format($data['harga_jual']); ?></td>
           <td>

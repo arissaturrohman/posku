@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.3
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 18, 2020 at 09:40 AM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.2.34
+-- Generation Time: 20 Des 2020 pada 11.24
+-- Versi Server: 10.1.16-MariaDB
+-- PHP Version: 7.0.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -24,7 +23,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_barang`
+-- Struktur dari tabel `tb_barang`
 --
 
 CREATE TABLE `tb_barang` (
@@ -33,24 +32,25 @@ CREATE TABLE `tb_barang` (
   `nama_barang` varchar(50) NOT NULL,
   `ukuran` varchar(20) NOT NULL,
   `satuan` varchar(30) NOT NULL,
+  `stok` varchar(20) NOT NULL,
   `harga_beli` varchar(20) NOT NULL,
   `harga_jual` varchar(20) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tb_barang`
+-- Dumping data untuk tabel `tb_barang`
 --
 
-INSERT INTO `tb_barang` (`id_barang`, `barcode`, `nama_barang`, `ukuran`, `satuan`, `harga_beli`, `harga_jual`, `created`, `updated`) VALUES
-(7, 'B20201218', 'Minyak Rambut', '100', 'gram', '2000', '3000', '2020-12-18 06:52:23', '2020-12-18 06:52:23'),
-(8, 'B20201219', 'Shampo', '5', 'gram', '500', '1000', '2020-12-17 17:00:00', '0000-00-00 00:00:00');
+INSERT INTO `tb_barang` (`id_barang`, `barcode`, `nama_barang`, `ukuran`, `satuan`, `stok`, `harga_beli`, `harga_jual`, `created`, `updated`) VALUES
+(7, 'B20201218', 'Minyak Rambut', '100', 'gram', '158', '2000', '3000', '2020-12-20 06:57:25', '2020-12-20 06:57:25'),
+(8, 'B20201219', 'Shampo', '5', 'gram', '466', '500', '1000', '2020-12-20 07:00:07', '2020-12-20 07:00:07');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_level`
+-- Struktur dari tabel `tb_level`
 --
 
 CREATE TABLE `tb_level` (
@@ -60,16 +60,17 @@ CREATE TABLE `tb_level` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tb_level`
+-- Dumping data untuk tabel `tb_level`
 --
 
 INSERT INTO `tb_level` (`id_level`, `p_level`, `diskon`) VALUES
-(1, 'Umum', '0');
+(1, 'Umum', '0'),
+(2, 'Reseller', '10');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_pelanggan`
+-- Struktur dari tabel `tb_pelanggan`
 --
 
 CREATE TABLE `tb_pelanggan` (
@@ -81,16 +82,17 @@ CREATE TABLE `tb_pelanggan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tb_pelanggan`
+-- Dumping data untuk tabel `tb_pelanggan`
 --
 
 INSERT INTO `tb_pelanggan` (`id_pelanggan`, `id_level`, `nama_pelanggan`, `alamat`, `telp`) VALUES
-(1, 1, 'Aris', 'Sukodono', '089677017239');
+(1, 1, 'Aris', 'Sukodono', '089677017239'),
+(2, 2, 'Lisnawati', 'Sukodono', '089677017239');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_pembelian`
+-- Struktur dari tabel `tb_pembelian`
 --
 
 CREATE TABLE `tb_pembelian` (
@@ -98,35 +100,76 @@ CREATE TABLE `tb_pembelian` (
   `id_barang` int(11) NOT NULL,
   `stok` varchar(20) NOT NULL,
   `deskripsi` varchar(50) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `updated` timestamp NOT NULL DEFAULT current_timestamp()
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `tb_pembelian`
---
-
-INSERT INTO `tb_pembelian` (`id_beli`, `id_barang`, `stok`, `deskripsi`, `created`, `updated`) VALUES
-(21, 7, '50', 'Tambahan', '2020-12-18 07:16:38', '2020-12-18 07:16:38'),
-(22, 8, '20', 'Kulakan', '2020-12-18 07:34:05', '2020-12-18 07:34:05');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_penjualan`
+-- Struktur dari tabel `tb_penjualan`
 --
 
 CREATE TABLE `tb_penjualan` (
-  `no_invoice` int(50) NOT NULL,
-  `id_barang` int(11) NOT NULL,
-  `stok_penjualan` int(11) NOT NULL,
-  `profit` int(20) NOT NULL
+  `id_penjualan` int(11) NOT NULL,
+  `barcode` varchar(20) NOT NULL,
+  `no_invoice` varchar(50) NOT NULL,
+  `jumlah` int(11) NOT NULL,
+  `total` varchar(20) NOT NULL,
+  `profit` int(20) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `id_pelanggan` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `tb_penjualan`
+--
+
+INSERT INTO `tb_penjualan` (`id_penjualan`, `barcode`, `no_invoice`, `jumlah`, `total`, `profit`, `created`, `id_pelanggan`) VALUES
+(27, 'B20201218', 'LV2012200001', 5, '12000', 1000, '2020-12-20 06:48:46', 0),
+(28, 'B20201219', 'LV2012200001', 5, '5000', 500, '2020-12-20 06:48:52', 0);
+
+--
+-- Trigger `tb_penjualan`
+--
+DELIMITER $$
+CREATE TRIGGER `jual` AFTER INSERT ON `tb_penjualan` FOR EACH ROW BEGIN
+UPDATE tb_barang
+SET stok = stok - new.jumlah
+WHERE 
+barcode = new.barcode;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_toko`
+-- Struktur dari tabel `tb_penjualan_detail`
+--
+
+CREATE TABLE `tb_penjualan_detail` (
+  `id_jual_detail` int(11) NOT NULL,
+  `no_invoice` varchar(50) NOT NULL,
+  `total` int(11) NOT NULL,
+  `bayar` int(11) NOT NULL,
+  `diskon` int(11) NOT NULL,
+  `s_total` int(11) NOT NULL,
+  `kembali` int(11) NOT NULL,
+  `ket` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `tb_penjualan_detail`
+--
+
+INSERT INTO `tb_penjualan_detail` (`id_jual_detail`, `no_invoice`, `total`, `bayar`, `diskon`, `s_total`, `kembali`, `ket`) VALUES
+(1, 'LV2012200005', 5000, 5000, 10, 4500, 500, 'Lunas');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tb_toko`
 --
 
 CREATE TABLE `tb_toko` (
@@ -138,7 +181,7 @@ CREATE TABLE `tb_toko` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tb_toko`
+-- Dumping data untuk tabel `tb_toko`
 --
 
 INSERT INTO `tb_toko` (`id_toko`, `nama_toko`, `no_telp`, `alamat`, `logo_toko`) VALUES
@@ -147,7 +190,7 @@ INSERT INTO `tb_toko` (`id_toko`, `nama_toko`, `no_telp`, `alamat`, `logo_toko`)
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_user`
+-- Struktur dari tabel `tb_user`
 --
 
 CREATE TABLE `tb_user` (
@@ -188,6 +231,18 @@ ALTER TABLE `tb_pembelian`
   ADD PRIMARY KEY (`id_beli`);
 
 --
+-- Indexes for table `tb_penjualan`
+--
+ALTER TABLE `tb_penjualan`
+  ADD PRIMARY KEY (`id_penjualan`);
+
+--
+-- Indexes for table `tb_penjualan_detail`
+--
+ALTER TABLE `tb_penjualan_detail`
+  ADD PRIMARY KEY (`id_jual_detail`);
+
+--
 -- Indexes for table `tb_toko`
 --
 ALTER TABLE `tb_toko`
@@ -208,38 +263,41 @@ ALTER TABLE `tb_user`
 --
 ALTER TABLE `tb_barang`
   MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
 --
 -- AUTO_INCREMENT for table `tb_level`
 --
 ALTER TABLE `tb_level`
-  MODIFY `id_level` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
+  MODIFY `id_level` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `tb_pelanggan`
 --
 ALTER TABLE `tb_pelanggan`
-  MODIFY `id_pelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
+  MODIFY `id_pelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `tb_pembelian`
 --
 ALTER TABLE `tb_pembelian`
-  MODIFY `id_beli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
-
+  MODIFY `id_beli` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `tb_penjualan`
+--
+ALTER TABLE `tb_penjualan`
+  MODIFY `id_penjualan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+--
+-- AUTO_INCREMENT for table `tb_penjualan_detail`
+--
+ALTER TABLE `tb_penjualan_detail`
+  MODIFY `id_jual_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `tb_toko`
 --
 ALTER TABLE `tb_toko`
   MODIFY `id_toko` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `tb_user`
 --
 ALTER TABLE `tb_user`
   MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT;
-COMMIT;
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
