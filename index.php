@@ -215,7 +215,7 @@ include("inc/config.php");
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
-                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                <!-- <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60"> -->
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -292,13 +292,23 @@ include("inc/config.php");
             }elseif ($aksi == "hapus") {
               include('page/penjualan/hapus.php');
             }
-          } elseif ($page == "laporan") {
+          } elseif ($page == "piutang") {
+            if ($aksi == "") {
+              include('page/piutang/piutang.php');
+            } elseif ($aksi == "edit") {
+              include('page/piutang/edit.php');
+            }
+          } elseif ($page == "lap_pembelian") {
             if ($aksi == "") {
               include('page/laporan/lap_pembelian.php');
             }
-          } elseif ($page == "laporan") {
+          } elseif ($page == "lap_penjualan") {
             if ($aksi == "") {
               include('page/laporan/lap_penjualan.php');
+            } elseif ($aksi == "detail") {
+              include('page/laporan/lap_jualdetail.php');
+            }elseif ($aksi == "add") {
+              include('page/laporan/add.php');
             }
           } elseif ($page == "pengguna") {
             if ($aksi == "") {
@@ -405,19 +415,19 @@ include("inc/config.php");
                   <td><?= $data['satuan']; ?></td>
                   <td>
                     <?php
-                    $id_barang = $data['id_barang'];
-                    $beli = $conn->query("SELECT * FROM tb_pembelian WHERE id_barang = '$id_barang'");
-                    $data_beli = $beli->fetch_assoc();
-                    if ($data_beli['stok'] == 0) {
-                      echo 0;
-                    } else {
-                      echo $data_beli['stok'];
-                    }
+                    // $id_barang = $data['id_barang'];
+                    // $beli = $conn->query("SELECT * FROM tb_pembelian WHERE id_barang = '$id_barang'");
+                    // $data_beli = $beli->fetch_assoc();
+                    // if ($data_beli['stok'] == 0) {
+                    //   echo 0;
+                    // } else {
+                    //   echo $data_beli['stok'];
+                    // }
                     ?>
-
+                    <?= $data['stok']; ?>
                   </td>
                   <td>
-                    <button class="btn btn-sm btn-info" id="select" data-id="<?= $data['id_barang']; ?>" data-barcode="<?= $data['barcode']; ?>" data-barang="<?= $data['nama_barang']; ?>" data-ukuran="<?= $data['ukuran']; ?>" data-satuan="<?= $data['satuan']; ?>" data-qty="<?= $data_beli['stok']; ?>">
+                    <button class="btn btn-sm btn-info" id="select" data-id="<?= $data['id_barang']; ?>" data-barcode="<?= $data['barcode']; ?>" data-barang="<?= $data['nama_barang']; ?>" data-ukuran="<?= $data['ukuran']; ?>" data-satuan="<?= $data['satuan']; ?>" data-qty="<?= $data['stok']; ?>">
                       <i class=" fas fa-check"></i>
                     </button>
                   </td>
@@ -464,22 +474,22 @@ include("inc/config.php");
                   <td style="font-size:8pt;"><?= $data['barcode']; ?></td>
                   <td style="font-size:8pt;"><?= $data['nama_barang']; ?></td>
                   <td style="font-size:8pt;"><?= $data['ukuran']. " " . $data['satuan']; ?></td>
-                  <!-- <td><?= $data['satuan']; ?></td> -->
-                  <td style="font-size:8pt;">
+                  <td style="font-size:8pt;"><?= $data['stok']; ?></td>
+                  <!-- <td style="font-size:8pt;"> -->
                     <?php
-                    $id_barang = $data['id_barang'];
-                    $beli = $conn->query("SELECT * FROM tb_pembelian WHERE id_barang = '$id_barang'");
-                    $data_beli = $beli->fetch_assoc();
-                    if ($data_beli['stok'] == 0) {
-                      echo 0;
-                    } else {
-                      echo $data_beli['stok'];
-                    }
+                    // $id_barang = $data['id_barang'];
+                    // $beli = $conn->query("SELECT * FROM tb_pembelian WHERE id_barang = '$id_barang'");
+                    // $data_beli = $beli->fetch_assoc();
+                    // if ($data_beli['stok'] == 0) {
+                    //   echo 0;
+                    // } else {
+                    //   echo $data_beli['stok'];
+                    // }
                     ?>
 
-                  </td>
+                  <!-- </td> -->
                   <td  style="font-size:8pt;">
-                    <button class="btn btn-sm btn-info" id="barcodeSelect" data-id="<?= $data['id_barang']; ?>" data-barcode="<?= $data['barcode']; ?>" data-barang="<?= $data['nama_barang']; ?>" data-ukuran="<?= $data['ukuran']; ?>" data-satuan="<?= $data['satuan']; ?>" data-qty="<?= $data_beli['stok']; ?>">
+                    <button class="btn btn-sm btn-info" id="barcodeSelect" data-id="<?= $data['id_barang']; ?>" data-barcode="<?= $data['barcode']; ?>" data-barang="<?= $data['nama_barang']; ?>" data-ukuran="<?= $data['ukuran']; ?>" data-satuan="<?= $data['satuan']; ?>" data-qty="<?= $data['stok']; ?>">
                       <i class=" fas fa-check"></i>
                     </button>
                   </td>
@@ -536,9 +546,30 @@ include("inc/config.php");
 
                   </td>
                   <td>
-                    <button class="btn btn-sm btn-info" id="jual" data-id="<?= $data['id_pelanggan']; ?>" data-pelanggan="<?= $data['nama_pelanggan']; ?>" data-alamat="<?= $data['alamat']; ?>" data-telp="<?= $data['telp']; ?>" data-level="<?= $data_level['p_level']; ?>" data-diskon="<?= $data_level['diskon']; ?>">
+                  <?php 
+                  $id_piutang = $data['id_pelanggan'];
+                  $piutang = $conn->query("SELECT * FROM tb_piutang WHERE id_pelanggan = '$id_piutang'");
+                  $data_piutang = $piutang->fetch_assoc();
+                  $ket = $data_piutang['ket'];
+
+                  if ($ket == "termin") {
+                    $cek = "btn btn-sm btn-secondary";
+                    $disable = "disabled";
+                    $keterangan = "Masih hutang";
+                    $style = "pointer-events: none;";
+                  } else {
+                    $cek = "btn btn-sm btn-info";
+                    $disable = "";
+                    $keterangan = "Pilih";
+                    $style = "";
+                  }
+                  
+                  ?>
+                  <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="<?= $keterangan; ?>">
+                    <button class="<?= $cek; ?>" id="jual" data-id="<?= $data['id_pelanggan']; ?>" data-pelanggan="<?= $data['nama_pelanggan']; ?>" data-alamat="<?= $data['alamat']; ?>" data-telp="<?= $data['telp']; ?>" data-level="<?= $data_level['p_level']; ?>" data-diskon="<?= $data_level['diskon']; ?>" data-toggle="tooltip" data-placement="top" title="<?= $keterangan; ?>" style="<?= $style; ?>" <?= $disable; ?>>                    
                       <i class=" fas fa-check"></i>
                     </button>
+                    </span>
                   </td>
                 </tr>
               <?php } ?>
@@ -569,23 +600,21 @@ include("inc/config.php");
   <script src="vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-
-  <script>
-    $('#dataTable').DataTable({
-      ordering: false,
-      info: false,
+  <script type='text/javascript'>
+    $(function () {
+        $("#ket").change(function () {
+            if ($(this).val() == "lunas") {
+                $("#tgl_tf").hide();
+            } else {
+                $("#tgl_tf").show();
+            }
+        });
     });
-  </script>
+</script>
+
 
   <script>
-    $('#tablePelanggan').DataTable({
-      ordering: false,
-      info: false,
-    });
-  </script>
-
-  <script>
-    $('#tableBarcode').DataTable({
+    $('#dataTable, #tablePelanggan, #tableBarcode').DataTable({
       ordering: false,
       info: false,
     });
@@ -623,12 +652,7 @@ include("inc/config.php");
         var ukuran = $(this).data('ukuran');
         var satuan = $(this).data('satuan');
         var qty = $(this).data('qty');
-        // $('#id_barang').val(id_barang);
         $('#barcode').val(barcode);
-        // $('#nama_barang').val(nama_barang);
-        // $('#ukuran').val(ukuran);
-        // $('#satuan').val(satuan);
-        // $('#qty').val(qty);
         $('#barcodeModal').modal('hide');
       })
     })
@@ -657,11 +681,14 @@ include("inc/config.php");
 
   <script>
   $(document).ready(function(){
-    $("#total, #diskon").click(function(){
+    $("#total, #diskon, #diskonrp").click(function(){
       var total = $("#total").val();
       var diskon = $("#diskon").val();
+      var diskonrp = $("#diskonrp").val();
       var potongan = parseInt(total) * parseInt(diskon) / parseInt(100);
-      var sub_total = parseInt(total) - parseInt(potongan);
+      var total1 = parseInt(total) - parseInt(potongan);
+      var sub_total = parseInt(total1) - parseInt(diskonrp);
+      // var sub_total = parseInt(total) - parseInt(potongan);
 
       $("#potongan").val(potongan);
       $("#s_total").val(sub_total);
@@ -672,16 +699,42 @@ include("inc/config.php");
 
 <script>
   $(document).ready(function(){
-    $("#bayar, #total, #diskon").keyup(function(){
+    $("#total, #diskon, #diskonrp").keyup(function(){
+      var total = $("#total").val();
+      var diskon = $("#diskon").val();
+      var diskonrp = $("#diskonrp").val();
+      var potongan = parseInt(total) * parseInt(diskon) / parseInt(100);
+      var total1 = parseInt(total) - parseInt(potongan);
+      var sub_total = parseInt(total1) - parseInt(diskonrp);
+      // var sub_total = parseInt(total) - parseInt(potongan);
+
+      $("#potongan").val(potongan);
+      $("#s_total").val(sub_total);
+
+    })
+  })
+</script>
+
+<script>
+  $(document).ready(function(){
+    $("#bayar, #total, #diskon, #diskonrp").keyup(function(){
         var bayar = $("#bayar").val();
         var total = $("#total").val();
         var diskon = $("#diskon").val();
+        var diskonrp = $("#diskonrp").val();
         var potongan = parseInt(total) * parseInt(diskon) / parseInt(100);
-        var sub_total = parseInt(total) - parseInt(potongan);
+        var total1 = parseInt(total) - parseInt(potongan);
+        var sub_total = parseInt(total1) - parseInt(diskonrp);
         var kembali = parseInt(bayar) - parseInt(sub_total);
-
+            
         $("#kembali").val(kembali);             
     })
+  })
+</script>
+
+<script>
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
   })
 </script>
 

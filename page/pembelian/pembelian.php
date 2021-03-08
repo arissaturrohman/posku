@@ -47,7 +47,7 @@
           <td><?= date('Y-m-d', strtotime($data['created'])); ?></td>
           <td>
             <a href="?page=beli&aksi=edit&id=<?= $data['id_beli']; ?>" class="badge badge-success">edit</a>
-            <a href="?page=beli&aksi=delete&id=<?= $data['id_beli']; ?>" onclick="return confirm('Apakah anda yakin menghapus data ini...?')" class="badge badge-danger">delete</a>
+            <!-- <a href="?page=beli&aksi=delete&id=<?= $data['id_beli']; ?>&id_barang=<?= $data_beli['id_barang']; ?>" onclick="return confirm('Apakah anda yakin menghapus data ini...?')" class="badge badge-danger">delete</a> -->
 
           </td>
         </tr>
