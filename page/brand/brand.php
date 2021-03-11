@@ -22,7 +22,7 @@
                 <th class="align-middle text-center">Nama Toko</th>
                 <th class="align-middle text-center">No Telp</th>
                 <th class="align-middle text-center">Alamat</th>
-                <th class="align-middle text-center">Logo</th>
+                <th class="align-middle text-center" width="30%">Logo</th>
                 <th class="align-middle" width="10%">Action</th>
             </tr>
         </thead>
@@ -37,7 +37,10 @@
                     <td><?= $data['nama_toko']; ?></td>
                     <td><?= $data['no_telp']; ?></td>
                     <td><?= $data['alamat']; ?></td>
-                    <td><?= $data['logo_toko']; ?></td>
+                    <td>
+                        <img src="img/<?= $data['logo_toko']; ?>" width="20%" alt="">
+                    <!-- <?= $data['logo_toko']; ?> -->
+                    </td>
                     <td>
                         <a href="?page=brand&aksi=edit&id=<?= $data['id_toko']; ?>" class="badge badge-success">edit</a>
                         <a href="?page=brand&aksi=delete&id=<?= $data['id_toko']; ?>" name="delete" onclick="return confirm('Apakah anda yakin menghapus data ini...?')" class="badge badge-danger">delete</a>
@@ -47,7 +50,7 @@
             <?php } ?>
         </tbody>
     </table>
-    <a href="?page=brand&aksi=add" class="btn btn-sm btn-primary"><i class="fas fa-plus-circle"></i> Add Data</a>
+    <!-- <a href="?page=brand&aksi=add" class="btn btn-sm btn-primary"><i class="fas fa-plus-circle"></i> Add Data</a> -->
 
 
 </section>

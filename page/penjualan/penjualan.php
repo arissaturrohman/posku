@@ -54,6 +54,7 @@ if (isset($_POST['submit'])) {
   $harga_beli = $data_harga['harga_beli'];
   $stok = $data_harga['stok'];
   $id_barang = $data_harga['id_barang'];
+  $id_user = $_SESSION['id_user'];
   
   $total_harga = $jumlah * $harga_jual;
   $profit = $jumlah * ($harga_jual - $harga_beli);
@@ -68,7 +69,7 @@ if (isset($_POST['submit'])) {
   }
    else {
     
-    $sql = $conn->query("INSERT INTO tb_penjualan (no_invoice, barcode, jumlah, total, profit, id_pelanggan, id_barang) VALUES ('$kode', '$barcode', '$jumlah', '$total_harga', '$profit', '$id_pelanggan', '$id_barang')");
+    $sql = $conn->query("INSERT INTO tb_penjualan (no_invoice, barcode, jumlah, total, profit, id_pelanggan, id_barang, id_user) VALUES ('$kode', '$barcode', '$jumlah', '$total_harga', '$profit', '$id_pelanggan', '$id_barang', '$id_user')");
   }
 
 }
@@ -255,6 +256,7 @@ if (isset($_POST['simpan'])) {
   $total = $_POST['total'];
   $bayar = $_POST['bayar'];
   $diskon_p = $_POST['diskon'];
+  $diskon_rp = $_POST['diskonrp'];
   $s_total = $_POST['s_total'];
   $kembali = $_POST['kembali'];
   $ket = $_POST['ket'];
@@ -263,7 +265,7 @@ if (isset($_POST['simpan'])) {
   $tgl_tf = $_POST['tgl_tf'];
   $diskon = ($bayar * $diskon_p) / 100;  
 
-  $jual_detail = $conn->query("INSERT INTO tb_penjualan_detail (no_invoice, total, bayar, diskon, s_total, kembali) VALUES ('$no_invoice', '$total', '$bayar', '$diskon', '$s_total', '$kembali')");
+  $jual_detail = $conn->query("INSERT INTO tb_penjualan_detail (no_invoice, total, bayar, diskon, diskonrp, s_total, kembali) VALUES ('$no_invoice', '$total', '$bayar', '$diskon', '$diskon_rp', '$s_total', '$kembali')");
 
   $update_jual = $conn->query("UPDATE tb_penjualan SET id_pelanggan = '$pelanggan', ket = '$ket' WHERE no_invoice = '$no_invoice'");
 
@@ -283,8 +285,10 @@ if ($jual_detail) {
   ?>
   <script>
     alert("Transaksi sukses");
+    window.open('page/penjualan/cetak_struk.php?invoice=<?=$no_invoice;?>', '_blank')
     window.location.href = "?page=penjualan&invoice=<?= $invoice; ?>";
-  </script>
+    // window.open('cetak_struk.php?id='+$invoice, '_blank');
+  </script>  
   <?php
 }
 

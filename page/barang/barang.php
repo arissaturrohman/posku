@@ -15,7 +15,8 @@
 
 <!-- Main content -->
 <section class="content">
-  <table id="example1" class="table table-bordered table-hover bg-white">
+<div class="table-responsive">
+  <table id="dataTable" class="table table-bordered table-hover bg-white" width="100%" cellspacing="0">
     <thead>
       <tr>
         <th class="align-middle text-center" width="5%">No</th>
@@ -32,7 +33,7 @@
     <tbody>
       <?php
       $no = 1;
-      $sql = $conn->query("SELECT * FROM tb_barang");
+      $sql = $conn->query("SELECT * FROM tb_barang ORDER BY stok ASC");
       while ($data = $sql->fetch_assoc()) {
       ?>
         <tr>
@@ -53,7 +54,7 @@
     </tbody>
   </table>
   <a href="?page=barang&aksi=add" class="btn btn-sm btn-primary"><i class="fas fa-plus-circle"></i> Add Data</a>
-
-
+ </div>
+  
 </section>
 <!-- /.content -->
