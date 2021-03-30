@@ -44,8 +44,8 @@
                     ?>
                     <td><?= $data_level['p_level']; ?></td>
                     <td>
-                        <a href="?page=brand&aksi=edit&id=<?= $data['id_toko']; ?>" class="badge badge-success">edit</a>
-                        <a href="?page=brand&aksi=delete&id=<?= $data['id_toko']; ?>" name="delete" onclick="return confirm('Apakah anda yakin menghapus data ini...?')" class="badge badge-danger">delete</a>
+                        <a href="?page=pelanggan&aksi=edit&id=<?= $data['id_pelanggan']; ?>" class="badge badge-success">edit</a>
+                        <a href="?page=pelanggan&aksi=delete&id=<?= $data['id_pelanggan']; ?>" onclick="return confirm('Apakah anda yakin menghapus data ini...?')" class="badge badge-danger">delete</a>
 
                     </td>
                 </tr>

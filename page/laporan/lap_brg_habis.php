@@ -15,7 +15,7 @@
 
 <!-- Main content -->
 <section class="content">
-  <table id="dataTable" class="table table-bordered table-hover bg-white">
+<table id="dataTable" class="table table-bordered table-hover bg-white">
     <thead>
       <tr>
         <th class="align-middle text-center" width="5%">No</th>

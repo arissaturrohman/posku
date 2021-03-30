@@ -21,11 +21,12 @@ $namaBulan = array("","Januari","Februari","Maret","April","Mei","Juni","Juli","
 $sql = $conn->query("SELECT sum(total) as omzet, month(created) as bulan from tb_penjualan GROUP BY month(created)");
 
 ?>
-  <table id="example1" class="table table-bordered table-hover bg-white">
+  <table id="dataTable" class="table table-bordered table-hover bg-white">
     <thead>
       <tr>
         <th class="align-middle text-center" width="5%">No</th>
         <th class="align-middle text-center">Nama Bulan</th>
+        <th class="align-middle text-center">Total Transaksi</th>
         <th class="align-middle text-center">Total Pendapatan</th>
         <th class="align-middle text-center">Total Keuntungan</th>
         <th class="align-middle text-center">Aksi</th>
@@ -41,14 +42,20 @@ $sql = $conn->query("SELECT sum(total) as omzet, month(created) as bulan from tb
       
       $data_profit = $profit->fetch_assoc();
       
+      $profit_kotor = $conn->query("SELECT SUM(s_total) AS profit_kotor FROM tb_penjualan_detail WHERE MONTH(created) = '$bulan' GROUP BY MONTH(created)");
+
+      $data_kotor = $profit_kotor->fetch_assoc();
       ?>
         <tr>
           <td class="align-middle text-center"><?= $no++; ?></td>
           <td><?= $namaBulan[$data['bulan']]; ?></td>
           <td><?= number_format($data['omzet']); ?></td>
+          <td><?= number_format($data_kotor['profit_kotor']); ?></td>
           <td><?= number_format($data_profit['total_profit']); ?></td>
           <td>
             <a href="?page=lap_penjualan&aksi=detail&bulan=<?= $data['bulan']; ?>" class="badge badge-success">Detail</a>
+
+            <a href="?page=lap_penjualan&aksi=hari_ini&hari=<?= $hari = date('d'); ?>" data-toggle="tooltip" data-placement="top" title="Hari Ini" class="btn btn-sm btn-warning"><i class="fas fa-search"></i></a>
           </td>
         </tr>        
         <?php } ?>

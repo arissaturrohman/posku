@@ -16,20 +16,25 @@ $data_logo = $logo->fetch_assoc();
 <html>
 <head>
 	<title>Invoice <?=$_GET['invoice']?></title>
+	<!-- <link href="../../css/sb-admin-2.min.css" rel="stylesheet"> -->
 	<style type="text/css">
 		.printableArea {
 		    width: 7cm;
 		    height:100%;
 		}
 
+		body{
+			font-family: Sans-Serif;
+		}
+
 		@page {
-		    size: 7cm auto; // 
-		    width: 7cm; //
+		    /* size: 6cm auto; //  */
+		    /* width: 6cm; // */
 		    height: 100%; //
 		    margin: 0;
-		    margin-left: 1px !important;
-		    margin-right: 2px !important;
-		    margin-top: 1px !important;
+		    /* margin-left: 1px ; */
+		    /* margin-right: 2px !important; */
+		    margin-top: 0px !important;
 		}
 	</style>
 </head>
@@ -40,11 +45,13 @@ $data_logo = $logo->fetch_assoc();
 <h3 style="text-align: center">
 TOKO <?=strtoupper($data_logo['nama_toko'])?><br>
 <small style="font-weight: normal; font-size: 10pt"><?=$data_logo['alamat']?></small>
-</h3>
+</h3><hr>
 
-<small>
-	No Order <?=$_GET['invoice']?><br>
-	Date : <?=date('d m Y H:i A', strtotime($data_header['created']))?> <br>
+<small class="mb-0">
+	Date : <?=date('d-m-Y H:i:s', strtotime($data_header['created']))?> <br>
+	No Order : <?=$_GET['invoice']?><br>
+	Kasir : <?= $data_footer['nama_user']; ?> <br>
+	Member : <?= $data_footer['nama_pelanggan']; ?> <br>
 	Payment : <?=ucfirst($data_header['ket'])?>
 </small>
 <br>
@@ -53,10 +60,10 @@ TOKO <?=strtoupper($data_logo['nama_toko'])?><br>
 <small>
 <table width="100%" style="text-align: center">
 	<tr>
-		<td style="text-align: left" width="35%">Item</td>
-		<td>Qty</td>
-		<td style="text-align: right">Price</td>
-		<td style="text-align: right">Subtotal</td>
+		<td style="text-align: left; font-weight: bold;" width="35%">Item</td>
+		<td style="font-weight: bold;">Qty</td>
+		<td style="text-align: right;  font-weight: bold;">Price</td>
+		<td style="text-align: right; font-weight: bold;">Subtotal</td>
 	</tr>
     <?php 
     while ($data = $sql->fetch_assoc()) { ?>
@@ -86,8 +93,8 @@ TOKO <?=strtoupper($data_logo['nama_toko'])?><br>
 		<td style="text-align: right">Rp. <?php echo number_format($data_bayar['diskonrp']);?></td>
 	</tr>
 	<tr>
-		<td style="text-align: right" colspan="3">Grand Total : </td>
-		<td style="text-align: right">Rp. <?php echo number_format($data_bayar['s_total']);?></td>
+		<td style="text-align: right" colspan="3"><strong>Grand Total : </strong></td>
+		<td style="text-align: right"><strong>Rp. <?php echo number_format($data_bayar['s_total']);?></strong></td>
 	</tr>
 	<tr>
 		<td style="text-align: right" colspan="3">Jumlah Bayar : </td>
@@ -97,21 +104,20 @@ TOKO <?=strtoupper($data_logo['nama_toko'])?><br>
 		<td style="text-align: right" colspan="3">Kembali : </td>
 		<td style="text-align: right">Rp. <?php echo number_format($data_bayar['kembali']);?></td>
 	</tr>
-	<tr><td colspan="4" style="text-align: left">Cashier : <?=ucfirst($data_footer['nama_user'])?></td></tr>
-	<tr><td colspan="4" style="text-align: left">Pelanggan : <?=ucfirst($data_footer['nama_pelanggan'])?></td></tr>
-	<tr></tr>
-	<tr></tr>
-	<tr></tr>
-	<tr></tr>
-	<tr></tr>
-	<tr></tr>
-	<tr></tr>
-	<tr></tr>
-	<tr>
-		<td colspan="4">Terima kasih telah berbelanja<br>
-			<b>Order online hubungi nomor 0896-7701-7239</b></td>
+	<!-- <tr><td colspan="4" style="text-align: left">Cashier : <?=ucfirst($data_footer['nama_user'])?></td></tr>
+	<tr><td colspan="4" style="text-align: left">Pelanggan : <?=ucfirst($data_footer['nama_pelanggan'])?></td></tr> -->
+	
+	
+		
 	</tr>
 </table>
+<br><br>
+		<div style="text-align: center">
+		Terima kasih telah berbelanja<br>
+		Salam Sehat Cantik Alamai <br>
+		Order online hubungi nomor<b><br>
+		0896-7701-7239</b>
+		</div>
 </small>
 <script type="text/javascript">
     function PrintWindow() {                    

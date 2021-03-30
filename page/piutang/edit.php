@@ -15,7 +15,7 @@
           <div class="mb-3 row">
             <label for="piutang" class="col-sm-4 col-form-label">Jumlah piutang</label>
             <div class="col-sm-8">
-              <input type="number" class="form-control" value="<?= $data['piutang']; ?>" name="piutang" id="piutang" readonly>
+              <input type="number" class="form-control" value="<?= number_format($data['piutang']); ?>" name="piutang" id="piutang" readonly>
             </div>
           </div>
           <div class="mb-3 row">

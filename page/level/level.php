@@ -27,7 +27,7 @@
         <tbody>
             <?php
             $no = 1;
-            $sql = $conn->query("SELECT * FROM tb_level");
+            $sql = $conn->query("SELECT * FROM tb_level ORDER BY diskon ASC");
             while ($data = $sql->fetch_assoc()) {
             ?>
                 <tr>

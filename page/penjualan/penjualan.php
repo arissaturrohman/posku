@@ -263,7 +263,7 @@ if (isset($_POST['simpan'])) {
   $jumlah = $_POST['jumlah'];
   $total_harga = $_POST['total_harga'];
   $tgl_tf = $_POST['tgl_tf'];
-  $diskon = ($bayar * $diskon_p) / 100;  
+  $diskon = ($total * $diskon_p) / 100;  
 
   $jual_detail = $conn->query("INSERT INTO tb_penjualan_detail (no_invoice, total, bayar, diskon, diskonrp, s_total, kembali) VALUES ('$no_invoice', '$total', '$bayar', '$diskon', '$diskon_rp', '$s_total', '$kembali')");
 

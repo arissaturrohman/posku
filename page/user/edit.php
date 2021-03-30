@@ -53,17 +53,14 @@ $data = $edit->fetch_assoc();
     $name = $_POST['nama'];
     $user = $_POST['user'];
     $level = $_POST['level'];
-    $status = "aktif";
 
-    //enkripsi Password
-    $pass = password_hash($_POST["pass"], PASSWORD_DEFAULT);
 
-    $sql = $conn->query("INSERT INTO tb_user (username, password, nama_user, level, status) values('$user', '$pass', '$name', '$level', '$status')");
+    $sql = $conn->query("UPDATE tb_user SET username = '$user', nama_user = '$name', level = '$level' WHERE id_user = '$id'");
 
     if ($sql) {
       ?>
       <script type="text/javascript">
-        alert("User berhasil ditambahkan..!");
+        alert("User berhasil diubah..!");
         window.location.href="?page=user";
       </script>
       <?php

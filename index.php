@@ -246,7 +246,7 @@ $uri_segments[4];
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $_SESSION['nama_user']; ?></span>
-                <!-- <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60"> -->
+                <img class="img-profile rounded-circle" src="img/09032021155951garuda.png">
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -300,12 +300,20 @@ $uri_segments[4];
               include('page/pelanggan/pelanggan.php');
             } elseif ($aksi == "add") {
               include('page/pelanggan/add.php');
-            }
-          } elseif ($page == "level") {
+            } elseif ($aksi == "edit") {
+            include('page/pelanggan/edit.php');
+            } elseif ($aksi == "delete") {
+            include('page/pelanggan/delete.php');
+          }
+        } elseif ($page == "level") {
             if ($aksi == "") {
               include('page/level/level.php');
             } elseif ($aksi == "add") {
               include('page/level/add.php');
+            } elseif ($aksi == "edit") {
+              include('page/level/edit.php');
+            } elseif ($aksi == "delete") {
+              include('page/level/delete.php');
             }
           } elseif ($page == "beli") {
             if ($aksi == "") {
@@ -346,8 +354,14 @@ $uri_segments[4];
               include('page/laporan/lap_penjualan.php');
             } elseif ($aksi == "detail") {
               include('page/laporan/lap_jualdetail.php');
-            }elseif ($aksi == "add") {
+            } elseif ($aksi == "hari_ini") {
+              include('page/laporan/lap_hariini.php');
+            } elseif ($aksi == "add") {
               include('page/laporan/add.php');
+            } elseif ($aksi == "lihat") {
+              include('page/laporan/lap_jualdetail2.php');
+            } elseif ($aksi == "delete") {
+              include('page/laporan/delete_jual.php');
             }
           } elseif ($page == "user") {
             if ($aksi == "") {
@@ -548,7 +562,6 @@ $uri_segments[4];
     </div>
   </div>
 
-
   <!-- Modal pelanggan -->
   <div class="modal fade" id="pelangganModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -630,7 +643,6 @@ $uri_segments[4];
 
 
 
-
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -647,6 +659,18 @@ $uri_segments[4];
 
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>
+
+  <script>
+    $(document).ready( function () {
+    $('#dataTable').DataTable();
+} );
+  </script>
+
+  <script>
+    $(document).ready( function () {
+    $('Tables').DataTable();
+} );
+  </script>
 
   <script type="application/javascript">
     $('#customFile').on('change', function() {
@@ -683,11 +707,7 @@ $uri_segments[4];
     });
   </script>
 
-  <script>
-    $(document).ready( function () {
-    $('#dataTable').DataTable();
-} );
-  </script>
+  
 
 
   <script>
