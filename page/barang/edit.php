@@ -18,37 +18,37 @@
           <div class="mb-3 row">
             <label for="barcode" class="col-sm-4 col-form-label">Barcode</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" name="barcode" value="<?= $data['barcode']; ?>" id="barcode" placeholder="Barcode">
+              <input type="text" class="form-control" name="barcode" value="<?= $data['barcode']; ?>"placeholder="Barcode" readonly>
             </div>
           </div>
           <div class="mb-3 row">
             <label for="nama" class="col-sm-4 col-form-label">Nama Barang</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" name="nama" value="<?= $data['nama_barang']; ?>" id="nama" placeholder="Nama Barang">
+              <input type="text" class="form-control" name="nama" value="<?= $data['nama_barang']; ?>"placeholder="Nama Barang" autocomplete="off">
             </div>
           </div>
           <div class="mb-3 row">
             <label for="ukuran" class="col-sm-4 col-form-label">Ukuran</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" name="ukuran" value="<?= $data['ukuran']; ?>" id="ukuran" placeholder="Ukuran">
+              <input type="text" class="form-control" name="ukuran" value="<?= $data['ukuran']; ?>" placeholder="Ukuran" autocomplete="off">
             </div>
           </div>
           <div class="mb-3 row">
             <label for="satuan" class="col-sm-4 col-form-label">Satuan</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" name="satuan" value="<?= $data['satuan']; ?>" id="satuan" placeholder="Satuan">
+              <input type="text" class="form-control" name="satuan" value="<?= $data['satuan']; ?>"placeholder="Satuan" autocomplete="off">
             </div>
           </div>
           <div class="mb-3 row">
             <label for="beli" class="col-sm-4 col-form-label">Harga Beli</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" name="beli" value="<?= $data['harga_beli']; ?>" id="beli" placeholder="Harga Beli">
+              <input type="text" class="form-control" name="beli" value="<?= $data['harga_beli']; ?>" placeholder="Harga Beli" autocomplete="off">
             </div>
           </div>
           <div class="mb-3 row">
             <label for="jual" class="col-sm-4 col-form-label">Harga Jual</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" name="jual" value="<?= $data['harga_jual']; ?>" id="jual" placeholder="Harga Jual">
+              <input type="text" class="form-control" name="jual" value="<?= $data['harga_jual']; ?>" placeholder="Harga Jual" autocomplete="off">
             </div>
           </div>
       </div>

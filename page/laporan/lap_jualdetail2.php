@@ -20,7 +20,7 @@
     <thead>
       <tr>
         <th class="align-middle text-center" width="5%">No</th>
-        <th class="align-middle text-center">No Invoice</th>
+        <th class="align-middle text-center">Barcode</th>
         <th class="align-middle text-center">Nama Barang</th>
         <th class="align-middle text-center">Jumlah</th>
         <th class="align-middle text-center">Total Belanja</th>
@@ -37,12 +37,24 @@
       ?>
         <tr>
           <td class="align-middle text-center"><?= $no++; ?></td>
-          <td><?= $data['no_invoice']; ?></td>
-          <td><?= $data['nama_barang']; ?></td>
+          <td><?= $data['barcode']; ?></td>
+          <td><?= $data['nama_barang']. " ".$data['ukuran']. " " .$data['satuan']; ?></td>
           <td><?= $data['jumlah']; ?></td>
           <td><?= number_format($data['total']); ?></td>
         </tr>        
-        <?php } ?>        
+        <?php } 
+        
+        $total = $conn->query("SELECT SUM(total) AS total1 FROM tb_penjualan WHERE no_invoice = '$_GET[id]'");
+        $data_total = $total->fetch_assoc();
+
+        ?>   
+        <tr>
+          <td colspan="4" class="text-right font-weight-bold">Jumlah Total</td>
+          <td style="display:none;"></td>
+          <td style="display:none;"></td>
+          <td style="display:none;"></td>
+          <td class="font-weight-bold"> <?= number_format($data_total['total1']); ?></td>
+        </tr>     
     </tbody>
   </table>
   <a href="?page=lap_penjualan" class="btn btn-sm btn-secondary">Kembali</a>

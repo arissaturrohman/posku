@@ -23,6 +23,7 @@
         <th class="align-middle text-center">No Invoice</th>
         <th class="align-middle text-center">Nama Pelanggan</th>
         <th class="align-middle text-center">Waktu</th>
+        <!-- <th class="align-middle text-center">Total</th> -->
         <th class="align-middle text-center" width="10%">Action</th>
       </tr>
     </thead>
@@ -35,22 +36,27 @@
       $sql = $conn->query("SELECT * from tb_penjualan 
       JOIN tb_pelanggan on tb_penjualan.id_pelanggan = tb_pelanggan.id_pelanggan
       where month(created) = '$_GET[bulan]' GROUP BY no_invoice");
+
+      // $total = $conn->query("SELECT SUM(total) AS total from tb_penjualan where month(created) = '$_GET[bulan]' GROUP BY no_invoice");
       
       while ($data = $sql->fetch_assoc()) {
-      ?>
+          // while($data_total = $total->fetch_assoc()){
+        ?>
         <tr>
           <td class="align-middle text-center"><?= $no++; ?></td>
           <td><?= $data['no_invoice']; ?></td>
           <td><?= $data['nama_pelanggan']; ?></td>
           <td><?= $data['created']; ?></td>
+          <!-- <td><?= number_format($data_total['total']); ?></td> -->
           <td>
-            <a href="?page=lap_penjualan&aksi=lihat&id=<?= $data['no_invoice']; ?>" class="badge badge-success">edit</a>
-            <a href="?page=lap_penjualan&aksi=delete&id=<?= $data['no_invoice']; ?>" target="_blank" class="badge badge-danger">delete</a>
+            <a href="?page=lap_penjualan&aksi=lihat&id=<?= $data['no_invoice']; ?>" class="badge badge-success">detail</a>
+            <a href="?page=lap_penjualan&aksi=delete&id=<?= $data['no_invoice']; ?>" onclick="return confirm('Apakah anda yakin menghapus transaksi ini...?')" class="badge badge-danger">delete</a>
 
           </td>
         </tr>
         
-        <?php }
+        <?php } ?>
+        <!-- <?php
         $omzet = $conn->query("SELECT SUM(total) AS omzet FROM tb_penjualan WHERE MONTH (created) = '$_GET[bulan]'");
         $data_omzet = $omzet->fetch_assoc();
         ?>
@@ -60,7 +66,8 @@
           <td style="display:none;"></td>
           <td style="display:none;"></td>
           <td class="font-weight-bold"><?= number_format($data_omzet['omzet']); ?></td>
-        </tr>
+          <td></td>
+        </tr> -->
     </tbody>
   </table>
   <a href="?page=lap_penjualan" class="btn btn-sm btn-secondary">Kembali</a>

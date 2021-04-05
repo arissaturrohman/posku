@@ -4,41 +4,54 @@
     <div class="card mb-4 py-3 border-left-info">
       <div class="card-body">
 
+      <?php 
+      
+      $query = $conn->query("SELECT MAX(barcode) AS kd FROM tb_barang");
+      $data = $query->fetch_assoc();
+      $kodeBarang = $data['kd'];
+      $urutan = (int) substr($kodeBarang, 4, 3);
+      $urutan++;
+      $huruf = "BRG";
+      $kodeBarang = $huruf . sprintf("%04s",$urutan);
+      // echo $kodeBarang;
+      
+      ?>
+
         <form action="" method="post">
           <div class="mb-3 row">
             <label for="barcode" class="col-sm-4 col-form-label">Barcode</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" name="barcode" id="barcode" placeholder="Barcode">
+              <input type="text" class="form-control" value="<?= $kodeBarang; ?>" name="barcode" readonly>
             </div>
           </div>
           <div class="mb-3 row">
             <label for="nama" class="col-sm-4 col-form-label">Nama Barang</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" name="nama" id="nama" placeholder="Nama Barang">
+              <input type="text" class="form-control" name="nama" placeholder="Nama Barang" autocomplete="off">
             </div>
           </div>
           <div class="mb-3 row">
             <label for="ukuran" class="col-sm-4 col-form-label">Ukuran</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" name="ukuran" id="ukuran" placeholder="Ukuran">
+              <input type="text" class="form-control" name="ukuran" placeholder="Ukuran" autocomplete="off">
             </div>
           </div>
           <div class="mb-3 row">
             <label for="satuan" class="col-sm-4 col-form-label">Satuan</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" name="satuan" id="satuan" placeholder="Satuan">
+              <input type="text" class="form-control" name="satuan" placeholder="Satuan" autocomplete="off">
             </div>
           </div>
           <div class="mb-3 row">
             <label for="beli" class="col-sm-4 col-form-label">Harga Beli</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" name="beli" id="beli" placeholder="Harga Beli">
+              <input type="number" class="form-control" name="beli" placeholder="Harga Beli" autocomplete="off">
             </div>
           </div>
           <div class="mb-3 row">
             <label for="jual" class="col-sm-4 col-form-label">Harga Jual</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" name="jual" id="jual" placeholder="Harga Jual">
+              <input type="number" class="form-control" name="jual" placeholder="Harga Jual" autocomplete="off">
             </div>
           </div>
       </div>

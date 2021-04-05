@@ -20,11 +20,11 @@
     <thead>
       <tr>
         <th class="align-middle text-center" width="5%">No</th>
-        <th class="align-middle text-center">Barcode</th>
+        <th class="align-middle text-center">No Invoice</th>
         <th class="align-middle text-center">Nama Pelanggan</th>
         <th class="align-middle text-center">Waktu</th>
         <th class="align-middle text-center">Total Belanja</th>
-        <th class="align-middle text-center" width="10%">Action</th>
+        <!-- <th class="align-middle text-center" width="10%">Action</th> -->
       </tr>
     </thead>
     <tbody>
@@ -45,9 +45,9 @@
           <td><?= $data['nama_pelanggan']; ?></td>
           <td><?= $data['created']; ?></td>
           <td><?= number_format($data['total']); ?></td>
-          <td>
+          <!-- <td>
             <a href="">detail</a>
-          </td>
+          </td> -->
         </tr>
         
         <?php }
@@ -60,7 +60,6 @@
           <td style="display:none;"></td>
           <td style="display:none;"></td>
           <td class="font-weight-bold"><?= number_format($data_omzet['omzet']); ?></td>
-          <td></td>
         </tr>
     </tbody>
   </table>
