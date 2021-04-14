@@ -11,6 +11,7 @@
         $id_barang = $_GET['id'];
         $sql = $conn->query("SELECT * FROM tb_barang WHERE id_barang = '$id_barang'");
         $data = $sql->fetch_assoc();
+        $kategori = $data['kategori'];
         
         ?>
         <form action="" method="post">
@@ -37,6 +38,24 @@
             <label for="satuan" class="col-sm-4 col-form-label">Satuan</label>
             <div class="col-sm-8">
               <input type="text" class="form-control" name="satuan" value="<?= $data['satuan']; ?>"placeholder="Satuan" autocomplete="off">
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="kategori" class="col-sm-4 col-form-label">Kategori</label>
+            <div class="col-sm-8">
+              <select name="kategori" id="kategori" class="form-control">
+              <option value="" <?php if($kategori==""){echo "selected";} ?>  ></option>
+              <option value="batrisiya" <?php if($kategori=="batrisiya"){echo "selected";} ?>  >Batrisiya</option>
+              <option value="msglow" <?php if($kategori=="msglow"){echo "selected";} ?>  >MS Glow</option>
+              <option value="facial" <?php if($kategori=="facial"){echo "selected";} ?>  >Facial</option>
+              <option value="lain-lain" <?php if($kategori=="lain-lain"){echo "selected";} ?>  >Lain-lain</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="stok" class="col-sm-4 col-form-label">Stok</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="stok" value="<?= $data['stok']; ?>" placeholder="Stok" autocomplete="off">
             </div>
           </div>
           <div class="mb-3 row">
@@ -67,13 +86,12 @@ if (isset($_POST['edit'])) {
   $nama = mysqli_real_escape_string($conn, $_POST['nama']);
   $satuan = mysqli_real_escape_string($conn, $_POST['satuan']);
   $ukuran = mysqli_real_escape_string($conn, $_POST['ukuran']);
+  $kategori = mysqli_real_escape_string($conn, $_POST['kategori']);
   $beli = mysqli_real_escape_string($conn, $_POST['beli']);
   $jual = mysqli_real_escape_string($conn, $_POST['jual']);
-  $updated = date('Y-m-d');
-  // $updated = 0;
-  // $stok = 0;
+  $stok = mysqli_real_escape_string($conn, $_POST['stok']);
 
-  $sql = $conn->query("UPDATE tb_barang SET barcode = '$barcode', nama_barang = '$nama', ukuran = '$ukuran', satuan = '$satuan', harga_beli = '$beli', harga_jual = '$jual', updated = '$updated' WHERE id_barang = '$id_barang'");
+  $sql = $conn->query("UPDATE tb_barang SET barcode = '$barcode', nama_barang = '$nama', ukuran = '$ukuran', satuan = '$satuan', kategori = '$kategori', stok = '$stok', harga_beli = '$beli', harga_jual = '$jual' WHERE id_barang = '$id_barang'");
 
   if ($sql) {
 ?>

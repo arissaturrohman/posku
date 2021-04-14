@@ -23,7 +23,7 @@
         <th class="align-middle text-center">Barcode</th>
         <th class="align-middle text-center">Nama Barang</th>
         <th class="align-middle text-center">Ukuran</th>
-        <!-- <th class="align-middle text-center">Satuan</th> -->
+        <th class="align-middle text-center">Kategori</th>
         <th class="align-middle text-center">Stok</th>
         <th class="align-middle text-center">Harga Beli</th>
         <th class="align-middle text-center">Harga Jual</th>
@@ -41,6 +41,7 @@
           <td><?= $data['barcode']; ?></td>
           <td><?= $data['nama_barang']; ?></td>
           <td><?= $data['ukuran'] . ' ' . $data['satuan']; ?></td>
+          <td><?= ucfirst($data['kategori']); ?></td>
           <td><?= $data['stok']; ?></td>
           <td><?= number_format($data['harga_beli']); ?></td>
           <td><?= number_format($data['harga_jual']); ?></td>

@@ -26,9 +26,10 @@ $sql = $conn->query("SELECT sum(total) as omzet, month(created) as bulan from tb
       <tr>
         <th class="align-middle text-center" width="5%">No</th>
         <th class="align-middle text-center">Nama Bulan</th>
-        <th class="align-middle text-center">Total Transaksi</th>
-        <th class="align-middle text-center">Total Pendapatan</th>
-        <th class="align-middle text-center">Total Keuntungan</th>
+        <th class="align-middle text-center">Omzet Kotor</th>
+        <th class="align-middle text-center">Omzet Bersih</th>
+        <th class="align-middle text-center">Harga Pokok</th>
+        <th class="align-middle text-center">Laba</th>
         <th class="align-middle text-center">Aksi</th>
         <!-- <th class="align-middle text-center" width="10%">Action</th> -->
       </tr>
@@ -38,20 +39,26 @@ $sql = $conn->query("SELECT sum(total) as omzet, month(created) as bulan from tb
       $no = 1;
       while ($data = $sql->fetch_assoc()) {
       $bulan = $data['bulan'];
-      $profit = $conn->query("SELECT SUM(profit) AS total_profit FROM tb_penjualan WHERE MONTH(created) = '$bulan' GROUP BY MONTH(created)");
+      $omzet_kotor = $conn->query("SELECT SUM(total) AS omzet_kotor FROM tb_penjualan WHERE MONTH(created) = '$bulan' GROUP BY MONTH(created)");
       
-      $data_profit = $profit->fetch_assoc();
+      $data_omzet_kotor = $omzet_kotor->fetch_assoc();
       
-      $profit_kotor = $conn->query("SELECT SUM(s_total) AS profit_kotor FROM tb_penjualan_detail WHERE MONTH(created) = '$bulan' GROUP BY MONTH(created)");
+      $omzet_bersih = $conn->query("SELECT SUM(s_total) AS omzet_bersih FROM tb_penjualan_detail WHERE MONTH(created) = '$bulan' GROUP BY MONTH(created)");
 
-      $data_kotor = $profit_kotor->fetch_assoc();
+      $data_omzet_bersih = $omzet_bersih->fetch_assoc();
+
+      $harga_pokok = $conn->query("SELECT SUM(harga_pokok) AS hrg_pokok FROM tb_penjualan WHERE MONTH(created) = '$bulan' GROUP BY MONTH(created)");
+
+      $data_harga_pokok = $harga_pokok->fetch_assoc();
+
       ?>
         <tr>
           <td class="align-middle text-center"><?= $no++; ?></td>
           <td><?= $namaBulan[$data['bulan']]; ?></td>
-          <td><?= number_format($data['omzet']); ?></td>
-          <td><?= number_format($data_kotor['profit_kotor']); ?></td>
-          <td><?= number_format($data_profit['total_profit']); ?></td>
+          <td><?= number_format($data_omzet_kotor['omzet_kotor']); ?></td>
+          <td><?= number_format($data_omzet_bersih['omzet_bersih']); ?></td>
+          <td><?= number_format($data_harga_pokok['hrg_pokok']); ?></td>
+          <td><?= number_format($data_omzet_bersih['omzet_bersih'] - $data_harga_pokok['hrg_pokok']); ?></td>
           <td>
             <a href="?page=lap_penjualan&aksi=detail&bulan=<?= $data['bulan']; ?>" class="badge badge-success">Detail</a>
 

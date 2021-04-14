@@ -57,7 +57,7 @@
         </tr>     
     </tbody>
   </table>
-  <a href="?page=lap_penjualan" class="btn btn-sm btn-secondary">Kembali</a>
+  <a href="?page=lap_penjualan&aksi=detail&bulan=<?= date("m"); ?>" class="btn btn-sm btn-secondary">Kembali</a>
   <a href="page/penjualan/cetak_struk.php?invoice=<?=$_GET['id'];?>" target="_blank" class="btn btn-sm btn-success"><i class="fas fa-print"></i> Cetak Nota</a>
 </section>
 <!-- /.content -->

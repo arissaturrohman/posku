@@ -58,6 +58,7 @@ if (isset($_POST['submit'])) {
   
   $total_harga = $jumlah * $harga_jual;
   $profit = $jumlah * ($harga_jual - $harga_beli);
+  $harga_pokok = $jumlah * $harga_beli;
 
   if ($stok <= $jumlah) {
     echo "
@@ -69,7 +70,7 @@ if (isset($_POST['submit'])) {
   }
    else {
     
-    $sql = $conn->query("INSERT INTO tb_penjualan (no_invoice, barcode, jumlah, total, profit, id_pelanggan, id_barang, id_user) VALUES ('$kode', '$barcode', '$jumlah', '$total_harga', '$profit', '$id_pelanggan', '$id_barang', '$id_user')");
+    $sql = $conn->query("INSERT INTO tb_penjualan (no_invoice, barcode, jumlah, total, harga_pokok, profit, id_pelanggan, id_barang, id_user) VALUES ('$kode', '$barcode', '$jumlah', '$total_harga', '$harga_pokok', '$profit', '$id_pelanggan', '$id_barang', '$id_user')");
   }
 
 }
@@ -162,8 +163,9 @@ if (isset($_POST['submit'])) {
   <div class="form-group row">
     <label for="diskon" class="col-sm-2 text-right col-form-label offset-6 align-right">Diskon %</label>
     <div class="col-sm-2">
-      <input type="number" name="diskon" id="diskon" class="form-control bg-secondary text-white text-right mr-1" readonly required>
-    </div><i class="fas fa-exclamation-circle text-danger" title="klik form diskon"></i>
+      <input type="number" name="diskon" id="diskon" class="form-control text-right mr-1" value="0" required>
+    </div>
+    <!-- <i class="fas fa-exclamation-circle text-danger" title="klik form diskon"></i> -->
     <!-- <div class="col-sm-1">
     <span >*klik untuk diskon</span>
     </div> -->

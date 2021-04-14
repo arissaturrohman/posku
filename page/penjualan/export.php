@@ -1,22 +1,14 @@
-<!-- Content Header (Page header) -->
-<section class="content-header">
-  <div class="row mb-2">
-    <div class="col-sm-6">
-      <h3>Detail Penjualan</h3>
-    </div>
-    <div class="col-sm-6">
-      <ol class="breadcrumb float-sm-right">
-        <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-        <li class="breadcrumb-item active">Laporan Penjualan</li>
-      </ol>
-    </div>
-  </div><!-- /.container-fluid -->
-</section>
+<?php
+include("../../inc/config.php");
+$hari = $_GET['tanggal'];
 
+header("Content-type: application/vnd-ms-excel");
+header("Content-Disposition: attachment; filename=Data Penjualan Tanggal". date('d-m-Y') .".xls");
+?>
 
-<!-- Main content -->
-<section class="content">
-<table id="dataTable" class="table table-bordered bg-white">
+<p style="text-align:center;font-weight: bold; font-size: 15px;">Rekap Penjualan Tanggal <?= date('d-m-Y'); ?></p>
+
+<table border="1">
     <thead>
       <tr>
         <th class="align-middle text-center" width="5%">No</th>
@@ -32,7 +24,7 @@
       $namaBulan = array("","Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"); 
       $no = 1;
       $bulan = date("m");
-      $sql = $conn->query("SELECT * from tb_penjualan JOIN tb_pelanggan on tb_penjualan.id_pelanggan = tb_pelanggan.id_pelanggan JOIN tb_barang ON tb_penjualan.id_barang = tb_barang.id_barang WHERE day(created) = '$_GET[hari]'");
+      $sql = $conn->query("SELECT * from tb_penjualan JOIN tb_pelanggan on tb_penjualan.id_pelanggan = tb_pelanggan.id_pelanggan JOIN tb_barang ON tb_penjualan.id_barang = tb_barang.id_barang WHERE day(created) = '$hari'");
       
       while ($data = $sql->fetch_assoc()) {     
       
@@ -49,7 +41,7 @@
     </tbody>
    
    <?php 
-   $total = $conn->query("SELECT SUM(total) AS omzet, SUM(harga_pokok) AS hrg_pokok from tb_penjualan JOIN tb_pelanggan on tb_penjualan.id_pelanggan = tb_pelanggan.id_pelanggan JOIN tb_barang ON tb_penjualan.id_barang = tb_barang.id_barang WHERE day(created) = '$_GET[hari]'");
+   $total = $conn->query("SELECT SUM(total) AS omzet, SUM(harga_pokok) AS hrg_pokok, SUM(harga_pokok) AS hrg_pokok from tb_penjualan JOIN tb_pelanggan on tb_penjualan.id_pelanggan = tb_pelanggan.id_pelanggan JOIN tb_barang ON tb_penjualan.id_barang = tb_barang.id_barang WHERE day(created) = '$hari'");
     $data_total = $total->fetch_assoc();
    
    ?>
@@ -57,32 +49,31 @@
   </table>
   <div class="card  my-2">
     <table class="mx-2 my-2">
-    
       <tr>
-        <th width="20%">Omzet Kotor</th>
+      <td></td>
+        <th width="20%" style="text-align:left;">Omzet Kotor</th>
         <td><?= ": Rp. " .number_format($data_total['omzet']); ?></td>
       </tr>
         <?php 
         
-        $omzet_bersih = $conn->query("SELECT SUM(s_total) AS omzet_bersih FROM tb_penjualan_detail WHERE DAY(created) = '$_GET[hari]'");
+        $omzet_bersih = $conn->query("SELECT SUM(s_total) AS omzet_bersih FROM tb_penjualan_detail WHERE DAY(created) = '$hari'");
         $data_bersih = $omzet_bersih->fetch_assoc();
         ?>
       <tr>
-        <th width="20%">Omzet Bersih</th>
+      <td></td>
+        <th width="20%" style="text-align:left;">Omzet Bersih</th>
         <td><?= ": Rp. " .number_format($data_bersih['omzet_bersih']); ?></td>
       </tr>
       <tr>
-        <th width="20%">Harga Pokok</th>
+      <td></td>
+        <th width="20%" style="text-align:left;">Harga Pokok</th>
         <td><?= ": Rp. " .number_format($data_total['hrg_pokok']); ?></td>
       </tr>
       <tr>
-        <th width="20%">Laba</th>
+      <td></td>
+        <th width="20%" style="text-align:left;">Laba</th>
         <td><?= ": Rp. " .number_format($data_bersih['omzet_bersih'] - $data_total['hrg_pokok']); ?></td>
       </tr>
     </table>
   </div>
-  <a href="?page=lap_penjualan" class="btn btn-sm btn-secondary">Kembali</a>
-  <a href="page/penjualan/export.php?tanggal=<?= $_GET['hari']; ?>" target="_blank" class="btn btn-sm btn-success">Export</a>
 
-</section>
-<!-- /.content -->

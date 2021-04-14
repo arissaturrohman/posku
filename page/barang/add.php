@@ -43,9 +43,27 @@
             </div>
           </div>
           <div class="mb-3 row">
+            <label for="kategori" class="col-sm-4 col-form-label">Kategori</label>
+            <div class="col-sm-8">
+              <select name="kategori" id="kategori" class="form-control">
+                <option value=""></option>
+                <option value="batrisiya">Batrisiya</option>
+                <option value="msglow">MS Glow</option>
+                <option value="facial">Facial</option>
+                <option value="lain-lain">Lain-lain</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3 row">
             <label for="beli" class="col-sm-4 col-form-label">Harga Beli</label>
             <div class="col-sm-8">
               <input type="number" class="form-control" name="beli" placeholder="Harga Beli" autocomplete="off">
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="stok" class="col-sm-4 col-form-label">Stok</label>
+            <div class="col-sm-8">
+              <input type="number" class="form-control" name="stok" placeholder="Stok" autocomplete="off">
             </div>
           </div>
           <div class="mb-3 row">
@@ -70,13 +88,12 @@ if (isset($_POST['submit'])) {
   $nama = mysqli_real_escape_string($conn, $_POST['nama']);
   $satuan = mysqli_real_escape_string($conn, $_POST['satuan']);
   $ukuran = mysqli_real_escape_string($conn, $_POST['ukuran']);
+  $kategori = mysqli_real_escape_string($conn, $_POST['kategori']);
   $beli = mysqli_real_escape_string($conn, $_POST['beli']);
   $jual = mysqli_real_escape_string($conn, $_POST['jual']);
-  $created = date('Y-m-d');
-  $updated = 0;
-  // $stok = 0;
+  $stok = mysqli_real_escape_string($conn, $_POST['stok']);
 
-  $sql = $conn->query("INSERT INTO tb_barang (barcode, nama_barang, ukuran, satuan, harga_beli, harga_jual, created, updated) VALUES('$barcode', '$nama', '$ukuran', '$satuan', '$beli', '$jual', '$created', '$updated')");
+  $sql = $conn->query("INSERT INTO tb_barang (barcode, nama_barang, ukuran, satuan, kategori, stok, harga_beli, harga_jual) VALUES('$barcode', '$nama', '$ukuran', '$satuan', '$kategori', '$stok', '$beli', '$jual')");
 
   if ($sql) {
 ?>
