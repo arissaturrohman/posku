@@ -47,7 +47,7 @@
         </tr>        
         <?php } ?>        
     </tbody>
-   
+    
    <?php 
    $total = $conn->query("SELECT SUM(total) AS omzet, SUM(harga_pokok) AS hrg_pokok from tb_penjualan JOIN tb_pelanggan on tb_penjualan.id_pelanggan = tb_pelanggan.id_pelanggan JOIN tb_barang ON tb_penjualan.id_barang = tb_barang.id_barang WHERE day(created) = '$_GET[hari]'");
     $data_total = $total->fetch_assoc();
@@ -82,7 +82,7 @@
     </table>
   </div>
   <a href="?page=lap_penjualan" class="btn btn-sm btn-secondary">Kembali</a>
-  <a href="page/penjualan/export.php?tanggal=<?= $_GET['hari']; ?>" target="_blank" class="btn btn-sm btn-success">Export</a>
+  <a href="page/laporan/export.php?tanggal=<?= $_GET['hari']; ?>" target="_blank" class="btn btn-sm btn-success">Export</a>
 
 </section>
 <!-- /.content -->

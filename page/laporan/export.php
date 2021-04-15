@@ -3,7 +3,7 @@ include("../../inc/config.php");
 $hari = $_GET['tanggal'];
 
 header("Content-type: application/vnd-ms-excel");
-header("Content-Disposition: attachment; filename=Data Penjualan Tanggal". date('d-m-Y') .".xls");
+header("Content-Disposition: attachment; filename=Data Penjualan Tanggal ". date('d-m-y') .".xls");
 ?>
 
 <p style="text-align:center;font-weight: bold; font-size: 15px;">Rekap Penjualan Tanggal <?= date('d-m-Y'); ?></p>
@@ -46,8 +46,8 @@ header("Content-Disposition: attachment; filename=Data Penjualan Tanggal". date(
    
    ?>
 
-  </table>
-  <div class="card  my-2">
+  </table> <br>
+  <div class="card my-2">
     <table class="mx-2 my-2">
       <tr>
       <td></td>
