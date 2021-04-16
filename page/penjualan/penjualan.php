@@ -153,13 +153,15 @@ if (isset($_POST['submit'])) {
     <label for="total" class="col-sm-2 text-right col-form-label offset-6 align-right">Total</label>
     <div class="col-sm-2">
     <?php 
-    $t_bayar = $conn->query("SELECT SUM(total) AS total_bayar FROM tb_penjualan WHERE no_invoice = '$kode'");
+    $t_bayar = $conn->query("SELECT SUM(total) AS total_bayar, SUM(jumlah) AS jml FROM tb_penjualan WHERE no_invoice = '$kode'");
     $data_bayar = $t_bayar->fetch_assoc();
     $bayar = $data_bayar['total_bayar'];
+    $jml = $data_bayar['jml'];
     ?>
       <input type="number" name="total" readonly class="form-control bg-secondary text-white text-right mr-1" id="total" value="<?= $bayar; ?>">
     </div>
   </div>
+  <input type="hidden" name="jumlah" value="<?= $jml; ?>">
   <div class="form-group row">
     <label for="diskon" class="col-sm-2 text-right col-form-label offset-6 align-right">Diskon %</label>
     <div class="col-sm-2">
@@ -238,22 +240,7 @@ if (isset($_POST['simpan'])) {
   die;
   }
 
-  // $sql_piutang = $conn->query("SELECT * FROM tb_piutang WHERE id_pelanggan");
-  // $data_piutang = $sql_piutang->fetch_assoc();
-  // $pelanggan_piutang = $data_piutang['ket'];
-  // $piutang = $data_piutang['piutang'];
-
-  // if ($pelanggan_piutang == "termin") {
-  //   ?>
-  // <script>
-  //   alert("Masih punya hutang, lunasi dulu");
-  //   window.location.href = "?page=penjualan&invoice=<?= $kode?>";    
-  // </script>
-  // <?php
-  // die;
-  // }
-
-
+  
   $no_invoice = $_POST['invoice'];
   $total = $_POST['total'];
   $bayar = $_POST['bayar'];
@@ -265,19 +252,15 @@ if (isset($_POST['simpan'])) {
   $jumlah = $_POST['jumlah'];
   $total_harga = $_POST['total_harga'];
   $tgl_tf = $_POST['tgl_tf'];
-  $diskon = ($total * $diskon_p) / 100;  
+  $diskon = ($total * $diskon_p) / 100;
+  $diskon_gabung = ($diskon + $diskon_rp) / $jumlah;
 
   $jual_detail = $conn->query("INSERT INTO tb_penjualan_detail (no_invoice, total, bayar, diskon, diskonrp, s_total, kembali) VALUES ('$no_invoice', '$total', '$bayar', '$diskon', '$diskon_rp', '$s_total', '$kembali')");
 
-  $update_jual = $conn->query("UPDATE tb_penjualan SET id_pelanggan = '$pelanggan', ket = '$ket' WHERE no_invoice = '$no_invoice'");
+  $update_jual = $conn->query("UPDATE tb_penjualan SET diskon = '$diskon_gabung', id_pelanggan = '$pelanggan', ket = '$ket' WHERE no_invoice = '$no_invoice'");
 
   $sql_piutang = $conn->query("INSERT INTO tb_piutang (id_pelanggan, no_invoice, piutang, ket, tgl_termin) VALUES('$pelanggan', '$no_invoice', '$kembali', '$ket', '$tgl_tf')");
   
-  // $jualUpdate1 = $conn->query("SELECT * FROM tb_penjualan WHERE no_invoice = '$no_invoice'");
-  //   $data_jual_update1 = $jualUpdate1->fetch_assoc();
-  //   $jumlah1 = $data_jual_update1['stok'];
-  //   $barcode1 = $data_jual_update1['barcode'];
-  //   $Update_Barang = $conn->query("UPDATE tb_barang SET stok = (stok - $jumlah1) WHERE barcode = '$barcode1'");
   
   
 }
@@ -289,7 +272,6 @@ if ($jual_detail) {
     alert("Transaksi sukses");
     window.open('page/penjualan/cetak_struk.php?invoice=<?=$no_invoice;?>', '_blank')
     window.location.href = "?page=penjualan&invoice=<?= $invoice; ?>";
-    // window.open('cetak_struk.php?id='+$invoice, '_blank');
   </script>  
   <?php
 }

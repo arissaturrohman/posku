@@ -573,7 +573,7 @@ $uri_segments[4];
           </button>
         </div>
         <div class="modal-body">
-          <table class="table table-responsive" id="tablePelanggan">
+          <table class="table" id="tablePelanggan">
             <thead>
               <tr>
                 <th>Nama</th>
@@ -591,10 +591,10 @@ $uri_segments[4];
 
               ?>
                 <tr>
-                  <td><?= $data['nama_pelanggan']; ?></td>
-                  <td><?= $data['alamat']; ?></td>
-                  <td><?= $data['telp']; ?></td>
-                  <td>
+                  <td style="font-size:8pt;"><?= $data['nama_pelanggan']; ?></td>
+                  <td style="font-size:8pt;"><?= $data['alamat']; ?></td>
+                  <td style="font-size:8pt;"><?= $data['telp']; ?></td>
+                  <td style="font-size:8pt;">
                     <?php
                     $id_level = $data['id_level'];
                     $level = $conn->query("SELECT * FROM tb_level WHERE id_level = '$id_level'");
@@ -603,7 +603,7 @@ $uri_segments[4];
                     ?>
 
                   </td>
-                  <td>
+                  <td style="font-size:8pt;">
                   <?php 
                   $id_piutang = $data['id_pelanggan'];
                   $piutang = $conn->query("SELECT * FROM tb_piutang WHERE id_pelanggan = '$id_piutang'");
