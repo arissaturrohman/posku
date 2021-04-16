@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 14 Apr 2021 pada 06.57
+-- Generation Time: 16 Apr 2021 pada 06.24
 -- Versi Server: 10.1.16-MariaDB
 -- PHP Version: 7.0.9
 
@@ -43,11 +43,11 @@ CREATE TABLE `tb_barang` (
 --
 
 INSERT INTO `tb_barang` (`id_barang`, `barcode`, `nama_barang`, `ukuran`, `satuan`, `kategori`, `stok`, `harga_beli`, `harga_jual`) VALUES
-(13, 'BRG0001', 'VCO', '100', 'ml', 'batrisiya', '5', '22000', '40000'),
-(14, 'BRG0002', 'VCO', '250', 'ml', '', '19', '38500', '70000'),
-(15, 'BRG0003', 'VCO Kapsul', '95 ', 'Kapsul', 'batrisiya', '70', '30000', '55000'),
-(16, 'BRG0004', 'TONER NORMAL', '60', 'ml', '', '43', '33000', '60000'),
-(18, 'BRG0005', 'TONER ACNE', '60', 'ml', '', '', '49500', '90000'),
+(13, 'BRG0001', 'VCO', '100', 'ml', 'batrisiya', '97', '22000', '40000'),
+(14, 'BRG0002', 'VCO', '250', 'ml', 'msglow', '48', '38500', '70000'),
+(15, 'BRG0003', 'VCO Kapsul', '95 ', 'Kapsul', 'batrisiya', '47', '30000', '55000'),
+(16, 'BRG0004', 'TONER NORMAL', '60', 'ml', 'batrisiya', '40', '33000', '60000'),
+(18, 'BRG0005', 'TONER ACNE', '60', 'ml', 'batrisiya', '95', '49500', '90000'),
 (19, 'BRG0006', 'TONER HARD/EKSTRA', '60', 'ml', '', '', '66000', '120000'),
 (20, 'BRG0007', 'ACNE CREAM/TOTOL', '12', 'GR', '', '', '46000', '80000'),
 (21, 'BRG0008', 'ANTI AGING', '15', 'gr', '', '', '69000', '120000'),
@@ -290,6 +290,7 @@ CREATE TABLE `tb_penjualan` (
   `jumlah` int(11) NOT NULL,
   `total` varchar(20) NOT NULL,
   `harga_pokok` varchar(20) NOT NULL,
+  `diskon` varchar(20) NOT NULL,
   `profit` int(20) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id_pelanggan` int(11) NOT NULL,
@@ -297,6 +298,16 @@ CREATE TABLE `tb_penjualan` (
   `id_user` int(11) NOT NULL,
   `ket` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `tb_penjualan`
+--
+
+INSERT INTO `tb_penjualan` (`id_penjualan`, `barcode`, `no_invoice`, `jumlah`, `total`, `harga_pokok`, `diskon`, `profit`, `created`, `id_pelanggan`, `id_barang`, `id_user`, `ket`) VALUES
+(19, 'BRG0001', 'LV2104160001', 3, '120000', '66000', '13333.333333333', 54000, '2021-04-16 04:00:58', 4, 13, 4, 'lunas'),
+(20, 'BRG0002', 'LV2104160002', 2, '140000', '77000', '11400', 63000, '2021-04-16 04:04:54', 7, 14, 4, 'lunas'),
+(21, 'BRG0003', 'LV2104160002', 3, '165000', '90000', '11400', 75000, '2021-04-16 04:04:59', 7, 15, 4, 'lunas'),
+(22, 'BRG0005', 'LV2104160002', 5, '450000', '247500', '11400', 202500, '2021-04-16 04:05:04', 7, 18, 4, 'lunas');
 
 --
 -- Trigger `tb_penjualan`
@@ -329,6 +340,14 @@ CREATE TABLE `tb_penjualan_detail` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data untuk tabel `tb_penjualan_detail`
+--
+
+INSERT INTO `tb_penjualan_detail` (`id_jual_detail`, `no_invoice`, `total`, `bayar`, `diskon`, `diskonrp`, `s_total`, `kembali`, `created`) VALUES
+(8, 'LV2104160001', 120000, 100000, 39600, 400, 80000, 20000, '2021-04-16 04:03:03'),
+(9, 'LV2104160002', 755000, 641000, 113250, 750, 641000, 0, '2021-04-16 04:05:27');
+
 -- --------------------------------------------------------
 
 --
@@ -344,6 +363,14 @@ CREATE TABLE `tb_piutang` (
   `tgl_termin` date NOT NULL,
   `tgl_lunas` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `tb_piutang`
+--
+
+INSERT INTO `tb_piutang` (`id_piutang`, `id_pelanggan`, `no_invoice`, `piutang`, `ket`, `tgl_termin`, `tgl_lunas`) VALUES
+(8, 4, 'LV2104160001', '20000', 'lunas', '0000-00-00', '0000-00-00'),
+(9, 7, 'LV2104160002', '0', 'lunas', '0000-00-00', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -470,22 +497,22 @@ ALTER TABLE `tb_pelanggan`
 -- AUTO_INCREMENT for table `tb_pembelian`
 --
 ALTER TABLE `tb_pembelian`
-  MODIFY `id_beli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id_beli` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `tb_penjualan`
 --
 ALTER TABLE `tb_penjualan`
-  MODIFY `id_penjualan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id_penjualan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `tb_penjualan_detail`
 --
 ALTER TABLE `tb_penjualan_detail`
-  MODIFY `id_jual_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_jual_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `tb_piutang`
 --
 ALTER TABLE `tb_piutang`
-  MODIFY `id_piutang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_piutang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `tb_toko`
 --
